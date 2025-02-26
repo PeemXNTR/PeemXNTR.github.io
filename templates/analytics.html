@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold mb-8">รายงานและการวิเคราะห์</h1>
+
+    <!-- สรุปภาพรวม -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="text-gray-500 text-sm font-medium">ยอดขายรวม 30 วัน</h3>
+            <p class="mt-2 text-3xl font-bold text-gray-900">
+                ฿{{ "%.2f"|format(daily_stats|sum(attribute='total_sales')) }}
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="text-gray-500 text-sm font-medium">จำนวนออเดอร์ 30 วัน</h3>
+            <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ daily_stats|sum(attribute='total_orders') }}
+            </p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="text-gray-500 text-sm font-medium">จำนวนการจอง 30 วัน</h3>
+            <p class="mt-2 text-3xl font-bold text-gray-900">
+                {{ reservation_stats|sum(attribute='total_reservations') }}
+            </p>
+        </div>
+    </div>
+
+    <!-- กราฟแสดงยอดขายรายวัน -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">ยอดขายรายวัน</h2>
+        <div class="h-80">
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+
+    <!-- เมนูยอดนิยม -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">เมนูยอดนิยม</h2>
+            <div class="space-y-4">
+                {% for item in popular_items %}
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <h4 class="text-sm font-medium text-gray-900">{{ item.name }}</h4>
+                        <p class="text-sm text-gray-500">
+                            สั่งแล้ว {{ item.total_quantity }} ครั้ง (฿{{ "%.2f"|format(item.price * item.total_quantity) }})
+                        </p>
+                    </div>
+                    <div class="w-24 h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-blue-600 rounded-full" 
+                             style="width: {{ (item.order_count / popular_items[0].order_count * 100)|round }}%">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- สถิติการจอง -->
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-lg font-semibold mb-4">สถิติการจอง</h2>
+            <div class="h-80">
+                <canvas id="reservationChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// กราฟยอดขาย
+const salesCtx = document.getElementById('salesChart').getContext('2d');
+new Chart(salesCtx, {
+    type: 'line',
+    data: {
+        labels: [{% for stat in daily_stats %}'{{ stat.date }}',{% endfor %}],
+        datasets: [{
+            label: 'ยอดขาย',
+            data: [{% for stat in daily_stats %}{{ stat.total_sales or 0 }},{% endfor %}],
+            borderColor: 'rgb(59, 130, 246)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return '฿' + value.toLocaleString();
+                    }
+                }
+            }
+        }
+    }
+});
+
+// กราฟการจอง
+const reservationCtx = document.getElementById('reservationChart').getContext('2d');
+new Chart(reservationCtx, {
+    type: 'bar',
+    data: {
+        labels: [{% for stat in reservation_stats %}'{{ stat.date }}',{% endfor %}],
+        datasets: [{
+            label: 'จำนวนการจอง',
+            data: [{% for stat in reservation_stats %}{{ stat.total_reservations }},{% endfor %}],
+            backgroundColor: 'rgba(59, 130, 246, 0.5)',
+            borderColor: 'rgb(59, 130, 246)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

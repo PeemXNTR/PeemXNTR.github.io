@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-8">ยินดีต้อนรับสู่ระบบจัดการร้านอาหาร</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/menu" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold mb-2">เมนูอาหาร</h2>
+            <p class="text-gray-600">ดูรายการอาหารทั้งหมด</p>
+        </a>
+        <a href="/add_menu" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold mb-2">เพิ่มเมนู</h2>
+            <p class="text-gray-600">เพิ่มรายการอาหารใหม่</p>
+        </a>
+        <a href="/order" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold mb-2">สั่งอาหาร</h2>
+            <p class="text-gray-600">บันทึกออเดอร์ใหม่</p>
+        </a>
+        <a href="/orders" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold mb-2">รายการสั่ง</h2>
+            <p class="text-gray-600">ดูประวัติการสั่งอาหาร</p>
+        </a>
+    </div>
+</div>
+{% endblock %} 
