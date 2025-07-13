@@ -1,55 +1,138 @@
-// เพิ่มเอฟเฟกต์เมื่อเลื่อนหน้า
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('header');
-    header.classList.toggle('scrolled', window.scrollY > 0);
+// ฟังก์ชันสำหรับเมนูมือถือ
+function toggleMobileMenu() {
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
 
-    // เพิ่มการแสดงผลแบบ fade-in สำหรับส่วนต่างๆ
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (sectionTop < windowHeight * 0.75) {
-            section.classList.add('visible');
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    body.classList.toggle('menu-open');
+}
+
+// ฟังก์ชันสำหรับเปลี่ยนภาษา
+let currentLang = 'th';
+
+function switchLanguage() {
+    const elements = document.querySelectorAll('[data-th]');
+    const newLang = currentLang === 'th' ? 'en' : 'th';
+    
+    elements.forEach(element => {
+        element.classList.add('switching');
+        setTimeout(() => {
+            element.textContent = element.getAttribute(`data-${newLang}`);
+            element.classList.remove('switching');
+        }, 150);
+    });
+    
+    currentLang = newLang;
+}
+
+// ฟังก์ชันสำหรับ Dark Mode
+function toggleTheme() {
+    const body = document.documentElement;
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    const themeToggle = document.getElementById('themeToggle');
+    
+    if (isDark) {
+        body.removeAttribute('data-theme');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// แอนิเมชั่นเมื่อเลื่อนหน้า
+function handleScroll() {
+    const elements = document.querySelectorAll('.fade-in');
+    const windowHeight = window.innerHeight;
+    
+    elements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < windowHeight - elementVisible) {
+            element.classList.add('visible');
         }
     });
-});
+}
 
-// เพิ่มการเลื่อนแบบนุ่มนวลเมื่อคลิกที่เมนู
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    });
-});
+// ฟังก์ชันสำหรับการเลื่อนแบบนุ่มนวล
+function smoothScroll(target) {
+    const element = document.querySelector(target);
+    const headerOffset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-// เพิ่มเอฟเฟกต์ hover สำหรับการ์ดทักษะ
-document.querySelectorAll('.skill-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px)';
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
     });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0)';
-    });
-});
+}
 
-// เพิ่มการโหลดรูปภาพแบบ lazy
+// เพิ่ม Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.removeAttribute('data-src');
-                observer.unobserve(img);
+    // เพิ่มคลาส fade-in ให้กับทุกเซ็กชัน
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.add('fade-in');
+    });
+    
+    // ตั้งค่า Event Listeners
+    document.getElementById('menuToggle').addEventListener('click', toggleMobileMenu);
+    document.getElementById('langToggle').addEventListener('click', switchLanguage);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    // จัดการการเลื่อนแบบนุ่มนวล
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = anchor.getAttribute('href');
+            smoothScroll(target);
+            
+            // ปิดเมนูมือถือถ้าเปิดอยู่
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.classList.contains('active')) {
+                toggleMobileMenu();
             }
         });
     });
-
-    images.forEach(img => imageObserver.observe(img));
+    
+    // เรียกใช้ handleScroll ครั้งแรก
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    
+    // ตรวจสอบธีมที่บันทึกไว้
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    // เพิ่มแอนิเมชั่นให้กับการ์ด
+    const cards = document.querySelectorAll('.skill-card, .project-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-15px)';
+            card.style.boxShadow = '0 15px 40px var(--shadow-color)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 10px 30px var(--shadow-color)';
+        });
+    });
+    
+    // เพิ่มแอนิเมชั่น Parallax สำหรับ Hero Section
+    const heroContent = document.querySelector('.hero-content');
+    window.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+        
+        heroContent.style.transform = `
+            translate(${mouseX * 20}px, ${mouseY * 20}px)
+            rotateX(${mouseY * 10}deg) rotateY(${mouseX * 10}deg)
+        `;
+    });
 }); 

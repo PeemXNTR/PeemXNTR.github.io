@@ -6,6 +6,7 @@
     <title>แฟ้มสะสมผลงานของฉัน</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- ส่วนหัว -->
@@ -13,15 +14,28 @@
         <nav>
             <div class="nav-content">
                 <div class="logo">
-                    <a href="#home">Portfolio</a>
+                    <a href="#home">Kim<span>Portfolio</span></a>
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#home">หน้าแรก</a></li>
-                    <li><a href="#about">เกี่ยวกับฉัน</a></li>
-                    <li><a href="#skills">ทักษะ</a></li>
-                    <li><a href="#projects">ผลงาน</a></li>
-                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#home" data-en="Home" data-th="หน้าแรก">หน้าแรก</a></li>
+                    <li><a href="#about" data-en="About" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</a></li>
+                    <li><a href="#skills" data-en="Skills" data-th="ทักษะ">ทักษะ</a></li>
+                    <li><a href="#projects" data-en="Projects" data-th="ผลงาน">ผลงาน</a></li>
+                    <li><a href="#contact" data-en="Contact" data-th="ติดต่อ">ติดต่อ</a></li>
                 </ul>
+                <div class="nav-controls">
+                    <button id="langToggle" class="control-button" aria-label="Toggle Language">
+                        <i class="fas fa-language"></i>
+                    </button>
+                    <button id="themeToggle" class="control-button" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
@@ -29,19 +43,73 @@
     <!-- ส่วนหน้าแรก -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>สวัสดีครับ</h1>
-            <h2>ยินดีต้อนรับสู่ Portfolio ของผม</h2>
-            <p>นักพัฒนาซอฟต์แวร์ที่มีความหลงใหลในการสร้างสรรค์</p>
-            <a href="#contact" class="cta-button">ติดต่อผม</a>
+            <div class="hero-text">
+                <h1 data-en="Hello" data-th="สวัสดีครับ">สวัสดีครับ</h1>
+                <h2 data-en="Welcome to My Portfolio" data-th="ยินดีต้อนรับสู่ Portfolio ของผม">ยินดีต้อนรับสู่ Portfolio ของผม</h2>
+                <p data-en="A passionate software developer" data-th="นักพัฒนาซอฟต์แวร์ที่มีความหลงใหลในการสร้างสรรค์">นักพัฒนาซอฟต์แวร์ที่มีความหลงใหลในการสร้างสรรค์</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="cta-button primary" data-en="Contact Me" data-th="ติดต่อผม">ติดต่อผม</a>
+                    <a href="#projects" class="cta-button secondary" data-en="View Projects" data-th="ดูผลงาน">ดูผลงาน</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/profile.jpg" alt="Kim's Profile" class="profile-image">
+            </div>
         </div>
     </section>
 
     <!-- ส่วนเกี่ยวกับฉัน -->
     <section id="about" class="about">
-        <h2>เกี่ยวกับฉัน</h2>
+        <h2 data-en="About Me" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</h2>
         <div class="about-content">
+            <div class="about-image">
+                <img src="images/profile1.jpg" alt="Peem's Profile" class="about-profile-image">
+                <div class="about-social">
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
             <div class="about-text">
-                <p>เขียนเกี่ยวกับตัวคุณที่นี่...</p>
+                <div class="about-header">
+                    <h3 data-en="Hi, I'm Peem" data-th="สวัสดีครับ ผมชื่อภีม">สวัสดีครับ ผมชื่อภีม</h3>
+                    <span class="highlight-text" data-en="Hardware Specialist" data-th="ผู้เชี่ยวชาญด้านฮาร์ดแวร์">ผู้เชี่ยวชาญด้านฮาร์ดแวร์</span>
+                </div>
+                <div class="about-description">
+                    <p data-en="I specialize in computer hardware, with a passion for PC building and configuring systems to match specific user needs." 
+                       data-th="ผมมีความถนัดในด้านฮาร์ดแวร์ รักในการประกอบคอมพิวเตอร์และการจัดสเปกเครื่องให้เหมาะสมกับการใช้งาน">
+                        ผมมีความถนัดในด้านฮาร์ดแวร์ รักในการประกอบคอมพิวเตอร์และการจัดสเปกเครื่องให้เหมาะสมกับการใช้งาน
+                    </p>
+                    <p data-en="I'm proficient in operating system installation and software configuration." 
+                       data-th="มีความสามารถในการติดตั้งระบบปฏิบัติการและโปรแกรมต่าง ๆ ได้อย่างถูกต้อง">
+                        มีความสามารถในการติดตั้งระบบปฏิบัติการและโปรแกรมต่าง ๆ ได้อย่างถูกต้อง
+                    </p>
+                    <p data-en="My interest lies in IT work related to system assembly and maintenance." 
+                       data-th="สนใจงานด้านไอทีที่เกี่ยวกับการประกอบและดูแลรักษาระบบ">
+                        สนใจงานด้านไอทีที่เกี่ยวกับการประกอบและดูแลรักษาระบบ
+                    </p>
+                    <p data-en="My goal is to secure stable employment to build a better quality of life." 
+                       data-th="เป้าหมายของผมคือทำงานอย่างมั่นคงเพื่อสร้างคุณภาพชีวิตที่ดี">
+                        เป้าหมายของผมคือทำงานอย่างมั่นคงเพื่อสร้างคุณภาพชีวิตที่ดี
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-tools"></i>
+                        <h4 data-en="Hardware" data-th="ฮาร์ดแวร์">ฮาร์ดแวร์</h4>
+                        <div class="progress-bar"><div class="progress" style="width: 95%"></div></div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-desktop"></i>
+                        <h4 data-en="PC Building" data-th="ประกอบคอมพิวเตอร์">ประกอบคอมพิวเตอร์</h4>
+                        <div class="progress-bar"><div class="progress" style="width: 90%"></div></div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-cog"></i>
+                        <h4 data-en="System Config" data-th="ตั้งค่าระบบ">ตั้งค่าระบบ</h4>
+                        <div class="progress-bar"><div class="progress" style="width: 85%"></div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -52,18 +120,18 @@
         <div class="skills-content">
             <div class="skill-card">
                 <i class="fas fa-code"></i>
-                <h3>การเขียนโปรแกรม</h3>
-                <p>HTML, CSS, JavaScript</p>
+                <h3>Web Development</h3>
+                <p>HTML, CSS, JavaScript<br>การพัฒนาเว็บไซต์</p>
             </div>
             <div class="skill-card">
-                <i class="fas fa-mobile-alt"></i>
-                <h3>การพัฒนาแอพ</h3>
-                <p>React Native, Flutter</p>
+                <i class="fas fa-laptop"></i>
+                <h3>Hardware Expertise</h3>
+                <p>การประกอบคอมพิวเตอร์<br>การแก้ไขปัญหาฮาร์ดแวร์</p>
             </div>
             <div class="skill-card">
-                <i class="fas fa-database"></i>
-                <h3>ฐานข้อมูล</h3>
-                <p>MySQL, MongoDB</p>
+                <i class="fas fa-tools"></i>
+                <h3>Computer Repair</h3>
+                <p>การซ่อมบำรุงคอมพิวเตอร์<br>การวิเคราะห์ปัญหาระบบ</p>
             </div>
         </div>
     </section>
@@ -73,15 +141,21 @@
         <h2>ผลงานของฉัน</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <img src="https://via.placeholder.com/300x200" alt="Project 1">
-                <h3>ชื่อโปรเจค 1</h3>
-                <p>รายละเอียดโปรเจค...</p>
+                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" alt="Web Development Project">
+                <h3>Portfolio Website</h3>
+                <p>เว็บไซต์ Portfolio ส่วนตัวที่พัฒนาด้วย HTML, CSS และ JavaScript โดยเน้นการออกแบบที่ทันสมัยและตอบสนองทุกขนาดหน้าจอ</p>
                 <a href="#" class="project-link">ดูเพิ่มเติม</a>
             </div>
             <div class="project-card">
-                <img src="https://via.placeholder.com/300x200" alt="Project 2">
-                <h3>ชื่อโปรเจค 2</h3>
-                <p>รายละเอียดโปรเจค...</p>
+                <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c" alt="Computer Hardware Project">
+                <h3>Computer Assembly & Repair</h3>
+                <p>ประสบการณ์การประกอบและซ่อมแซมคอมพิวเตอร์ รวมถึงการแก้ไขปัญหาฮาร์ดแวร์ต่างๆ ในระหว่างการฝึกงาน</p>
+                <a href="#" class="project-link">ดูเพิ่มเติม</a>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8" alt="Network Project">
+                <h3>Network Configuration</h3>
+                <p>งานด้านการตั้งค่าและดูแลระบบเครือข่ายที่ Siam IT Networking Thailand Co.Ltd</p>
                 <a href="#" class="project-link">ดูเพิ่มเติม</a>
             </div>
         </div>
@@ -94,11 +168,11 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
-                    <p>email@example.com</p>
+                    <p>peemcwnk@gmail.com</p>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
-                    <p>+66 xx xxx xxxx</p>
+                    <p>+66  091 743 9468</p>
                 </div>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-github"></i></a>
