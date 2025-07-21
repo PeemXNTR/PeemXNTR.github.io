@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4">
+    <!-- Search Filters -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <form method="GET" action="{{ url_for('search') }}" class="space-y-4">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" name="q" value="{{ query }}" placeholder="ค้นหารองเท้า..."
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                </div>
+                <div class="w-full md:w-48">
+                    <select name="category_id" id="category_select" onchange="updateSubcategories()" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        <option value="">ทุกหมวดหมู่</option>
+                        {% for category in main_categories %}
+                        <option value="{{ category.id }}" {% if category.id|string == selected_category_id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="w-full md:w-48" id="subcategory_container" {% if not subcategories %}style="display: none;"{% endif %}>
+                    <select name="subcategory_id" id="subcategory_select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                        <option value="">ทุกหมวดหมู่ย่อย</option>
+                        {% for subcategory in subcategories %}
+                        <option value="{{ subcategory.id }}" {% if subcategory.id|string == selected_subcategory_id %}selected{% endif %}>
+                            {{ subcategory.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="footstep-button px-8 py-3 rounded-full text-lg">
+                    ค้นหา
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Search Results -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+            ผลการค้นหา
+            {% if query %}
+            สำหรับ "{{ query }}"
+            {% endif %}
+            {% if selected_category_id %}
+            {% for category in main_categories %}
+                {% if category.id|string == selected_category_id %}
+                ในหมวดหมู่ {{ category.name }}
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% if selected_subcategory_id %}
+            {% for subcategory in subcategories %}
+                {% if subcategory.id|string == selected_subcategory_id %}
+                ({{ subcategory.name }})
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+        </h2>
+        <p class="text-gray-600">
+            พบ {{ shoes|length }} รายการ
+        </p>
+    </div>
+
+    {% if shoes %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for shoe in shoes %}
+        <div class="shoe-card rounded-lg overflow-hidden">
+            <div class="relative group">
+                <img src="{{ shoe.image_url }}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" alt="{{ shoe.name }}">
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ shoe.name }}</h3>
+                <p class="text-gray-600 mb-4">{{ shoe.description }}</p>
+                <div class="flex justify-between items-center">
+                    <p class="footstep-price text-2xl">{{ "%.2f"|format(shoe.price) }} บาท</p>
+                    <span class="text-sm font-medium {% if shoe.sizes|sum(attribute='stock') > 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                        คงเหลือ: {{ shoe.sizes|sum(attribute='stock') }} คู่
+                    </span>
+                </div>
+                <a href="{{ url_for('shoe_detail', id=shoe.id) }}" 
+                   class="mt-4 block w-full text-center footstep-button py-2 px-4 rounded-full">
+                    ดูรายละเอียด
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-12">
+        <p class="text-gray-600 text-lg mb-4">ไม่พบสินค้าที่ค้นหา</p>
+        <a href="{{ url_for('index') }}" class="footstep-button inline-block px-8 py-3 rounded-full text-lg">
+            กลับไปหน้าหลัก
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% block scripts %}
+<script>
+    function updateSubcategories() {
+        const categorySelect = document.getElementById('category_select');
+        const subcategoryContainer = document.getElementById('subcategory_container');
+        const subcategorySelect = document.getElementById('subcategory_select');
+        
+        if (categorySelect.value) {
+            // ถ้ามีการเลือกหมวดหมู่ ให้ส่ง AJAX request เพื่อดึงหมวดหมู่ย่อย
+            fetch(`/api/subcategories/${categorySelect.value}`)
+                .then(response => response.json())
+                .then(data => {
+                    // ล้างตัวเลือกเดิม
+                    subcategorySelect.innerHTML = '<option value="">ทุกหมวดหมู่ย่อย</option>';
+                    
+                    // เพิ่มตัวเลือกใหม่
+                    data.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory.id;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                    
+                    // แสดง dropdown หมวดหมู่ย่อย
+                    subcategoryContainer.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching subcategories:', error);
+                });
+        } else {
+            // ถ้าไม่ได้เลือกหมวดหมู่ ให้ซ่อน dropdown หมวดหมู่ย่อย
+            subcategoryContainer.style.display = 'none';
+            subcategorySelect.innerHTML = '<option value="">ทุกหมวดหมู่ย่อย</option>';
+        }
+    }
+    
+    // เรียกใช้ฟังก์ชันเมื่อโหลดหน้า ถ้ามีการเลือกหมวดหมู่อยู่แล้ว
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('category_select');
+        if (categorySelect.value) {
+            updateSubcategories();
+        }
+    });
+</script>
+{% endblock %}
+
+{% endblock %} 

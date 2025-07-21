@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">เพิ่มข้อมูลสุขภาพไก่</h1>
+
+        <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-4">
+                <label for="chicken_id" class="block text-gray-700 text-sm font-bold mb-2">เลือกไก่</label>
+                <select name="chicken_id" id="chicken_id" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="">เลือกไก่</option>
+                    {% for chicken in chickens %}
+                    <option value="{{ chicken.id }}">{{ chicken.name }} ({{ chicken.breed }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="date" class="block text-gray-700 text-sm font-bold mb-2">วันที่</label>
+                <input type="date" name="date" id="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="symptoms" class="block text-gray-700 text-sm font-bold mb-2">อาการ</label>
+                <textarea name="symptoms" id="symptoms" required rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="treatment" class="block text-gray-700 text-sm font-bold mb-2">การรักษา</label>
+                <textarea name="treatment" id="treatment" required rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="notes" class="block text-gray-700 text-sm font-bold mb-2">หมายเหตุ</label>
+                <textarea name="notes" id="notes" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    บันทึกข้อมูล
+                </button>
+                <a href="{{ url_for('health') }}" class="text-gray-600 hover:text-gray-800">ยกเลิก</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

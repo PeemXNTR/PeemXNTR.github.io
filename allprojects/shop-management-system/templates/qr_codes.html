@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+
+{% block title %}ระบบ QR Code - ระบบจัดการฟาร์มไก่{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">ระบบ QR Code</h1>
+        <p class="text-gray-600 mt-1">ระบุตัวไก่ด้วย QR Code เพื่อการติดตามและการจัดการที่มีประสิทธิภาพ</p>
+    </div>
+    <div class="flex space-x-2">
+        <button id="print-all-qr" class="bg-white text-gray-700 py-2 px-4 rounded-lg border border-gray-200 hover:bg-gray-50 inline-flex items-center text-sm">
+            <i data-feather="printer" class="h-4 w-4 mr-2"></i>
+            <span>พิมพ์ QR ทั้งหมด</span>
+        </button>
+        <button id="generate-all-qr" class="bg-primary hover:bg-accent text-white py-2 px-4 rounded-lg inline-flex items-center text-sm">
+            <i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i>
+            <span>สร้าง QR ใหม่ทั้งหมด</span>
+        </button>
+    </div>
+</div>
+
+<!-- ส่วนค้นหาและกรอง -->
+<div class="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-100">
+    <div class="flex flex-col sm:flex-row gap-4">
+        <div class="relative flex-grow">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
+            </div>
+            <input type="text" id="search" placeholder="ค้นหาไก่..." 
+                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div class="sm:w-48">
+            <select id="filter-barn" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="all">ทุกโรงเรือน</option>
+                {% for barn in barns %}
+                    <option value="{{ barn.id }}">{{ barn.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- แสดงรายการไก่และ QR Code -->
+{% if chickens %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for chicken in chickens %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden chicken-card" data-id="{{ chicken.id }}" data-name="{{ chicken.name }}" data-barn="{{ chicken.barn_id }}">
+                <div class="border-b p-4 flex justify-between items-center">
+                    <h3 class="font-medium text-gray-900">{{ chicken.name }}</h3>
+                    <span class="px-2 py-1 rounded-full text-xs font-medium
+                        {% if chicken.health_status == 'ดี' %}bg-green-100 text-green-800
+                        {% elif chicken.health_status == 'ปานกลาง' %}bg-yellow-100 text-yellow-800
+                        {% else %}bg-red-100 text-red-800{% endif %}">
+                        {{ chicken.health_status }}
+                    </span>
+                </div>
+                
+                <!-- QR Code -->
+                <div class="p-6 flex flex-col items-center justify-center">
+                    <div id="qr-{{ chicken.id }}" class="qr-code mb-4">
+                        {% if chicken.qr_code %}
+                            <img src="data:image/png;base64,{{ chicken.qr_code }}" alt="QR Code {{ chicken.name }}" class="w-40 h-40">
+                        {% else %}
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg w-40 h-40 flex items-center justify-center">
+                                <p class="text-gray-400 text-sm text-center">ยังไม่มี QR Code<br>คลิกปุ่มด้านล่างเพื่อสร้าง</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- ข้อมูลไก่ -->
+                    <div class="text-sm text-center">
+                        <p class="text-gray-500">รหัส: <span class="font-medium text-gray-900">{{ chicken.id }}</span></p>
+                        <p class="text-gray-500">สายพันธุ์: <span class="font-medium text-gray-900">{{ chicken.breed }}</span></p>
+                        {% if chicken.barn %}
+                            <p class="text-gray-500">โรงเรือน: <span class="font-medium text-gray-900">{{ chicken.barn.name }}</span></p>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- ปุ่มจัดการ QR Code -->
+                    <div class="mt-4 flex space-x-3">
+                        <button class="generate-qr px-3 py-1.5 bg-primary text-white text-xs rounded hover:bg-accent flex items-center" data-id="{{ chicken.id }}">
+                            <i data-feather="refresh-cw" class="h-3 w-3 mr-1"></i>
+                            {% if chicken.qr_code %}สร้างใหม่{% else %}สร้าง QR{% endif %}
+                        </button>
+                        {% if chicken.qr_code %}
+                            <a href="{{ url_for('download_qr', chicken_id=chicken.id) }}" class="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 flex items-center">
+                                <i data-feather="download" class="h-3 w-3 mr-1"></i>
+                                ดาวน์โหลด
+                            </a>
+                            <button class="print-qr px-3 py-1.5 bg-gray-600 text-white text-xs rounded hover:bg-gray-700 flex items-center" data-id="{{ chicken.id }}">
+                                <i data-feather="printer" class="h-3 w-3 mr-1"></i>
+                                พิมพ์
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-center">
+        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Previous</span>
+                <i data-feather="chevron-left" class="h-5 w-5"></i>
+            </a>
+            <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                1
+            </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                2
+            </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                3
+            </a>
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Next</span>
+                <i data-feather="chevron-right" class="h-5 w-5"></i>
+            </a>
+        </nav>
+    </div>
+{% else %}
+    <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+        <div class="flex flex-col items-center justify-center">
+            <i data-feather="alert-circle" class="h-16 w-16 text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-medium text-gray-900 mb-2">ไม่พบข้อมูลไก่</h3>
+            <p class="text-gray-600 max-w-md mx-auto mb-6">คุณยังไม่มีข้อมูลไก่ในระบบ โปรดเพิ่มข้อมูลไก่ก่อนใช้งานระบบ QR Code</p>
+            <a href="{{ url_for('add_chicken') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-accent">
+                <i data-feather="plus" class="h-4 w-4 mr-2"></i>
+                เพิ่มไก่ใหม่
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+<!-- QR Code Modal -->
+<div id="qr-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div class="border-b px-6 py-4 flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">QR Code: <span id="modal-chicken-name"></span></h3>
+            <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+                <i data-feather="x" class="h-5 w-5"></i>
+            </button>
+        </div>
+        
+        <div class="p-6 flex flex-col items-center">
+            <div id="modal-qr-display" class="mb-6">
+                <!-- QR Code จะถูกใส่ที่นี่ -->
+            </div>
+            
+            <div class="text-center mb-6">
+                <p class="text-sm text-gray-600">สแกน QR Code นี้เพื่อดูข้อมูลไก่</p>
+                <p id="modal-chicken-id" class="text-xs text-gray-500 mt-1"></p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button id="modal-print" class="px-4 py-2 bg-primary text-white rounded hover:bg-accent flex items-center">
+                    <i data-feather="printer" class="h-4 w-4 mr-2"></i>
+                    พิมพ์
+                </button>
+                <a id="modal-download" href="#" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center">
+                    <i data-feather="download" class="h-4 w-4 mr-2"></i>
+                    ดาวน์โหลด
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- พิมพ์ QR Code แยก -->
+<div id="print-container" class="hidden">
+    <!-- เนื้อหาสำหรับพิมพ์จะถูกใส่ที่นี่ -->
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // การค้นหาและกรอง
+        const searchInput = document.getElementById('search');
+        const barnFilter = document.getElementById('filter-barn');
+        const chickenCards = document.querySelectorAll('.chicken-card');
+        
+        function filterChickens() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const barnValue = barnFilter.value;
+            
+            chickenCards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const barn = card.dataset.barn;
+                const matchesSearch = name.includes(searchTerm);
+                const matchesBarn = barnValue === 'all' || barn === barnValue;
+                
+                card.style.display = (matchesSearch && matchesBarn) ? '' : 'none';
+            });
+        }
+        
+        if (searchInput) searchInput.addEventListener('input', filterChickens);
+        if (barnFilter) barnFilter.addEventListener('change', filterChickens);
+        
+        // สร้าง QR Code ใหม่
+        const generateButtons = document.querySelectorAll('.generate-qr');
+        generateButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const chickenId = this.dataset.id;
+                generateQRCode(chickenId);
+            });
+        });
+        
+        // ฟังก์ชันสร้าง QR Code
+        function generateQRCode(chickenId) {
+            fetch(`/api/chickens/${chickenId}/generate-qr`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // อัปเดต QR Code ในหน้าเว็บ
+                    const qrContainer = document.getElementById(`qr-${chickenId}`);
+                    if (qrContainer) {
+                        qrContainer.innerHTML = `<img src="data:image/png;base64,${data.qr_code}" alt="QR Code" class="w-40 h-40">`;
+                        
+                        // เพิ่มปุ่มดาวน์โหลดและพิมพ์
+                        const actionsContainer = qrContainer.closest('.chicken-card').querySelector('.mt-4');
+                        if (actionsContainer && actionsContainer.children.length === 1) {
+                            const downloadButton = document.createElement('a');
+                            downloadButton.href = `/api/chickens/${chickenId}/download-qr`;
+                            downloadButton.className = 'px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 flex items-center';
+                            downloadButton.innerHTML = '<i data-feather="download" class="h-3 w-3 mr-1"></i> ดาวน์โหลด';
+                            
+                            const printButton = document.createElement('button');
+                            printButton.className = 'print-qr px-3 py-1.5 bg-gray-600 text-white text-xs rounded hover:bg-gray-700 flex items-center';
+                            printButton.dataset.id = chickenId;
+                            printButton.innerHTML = '<i data-feather="printer" class="h-3 w-3 mr-1"></i> พิมพ์';
+                            
+                            actionsContainer.appendChild(downloadButton);
+                            actionsContainer.appendChild(printButton);
+                            
+                            // อัปเดตไอคอน
+                            feather.replace();
+                            
+                            // เพิ่ม event listener สำหรับปุ่มพิมพ์
+                            printButton.addEventListener('click', function() {
+                                showQRModal(chickenId);
+                            });
+                        }
+                        
+                        // อัปเดตข้อความปุ่มสร้าง QR
+                        const generateButton = qrContainer.closest('.chicken-card').querySelector('.generate-qr');
+                        if (generateButton) {
+                            generateButton.innerHTML = '<i data-feather="refresh-cw" class="h-3 w-3 mr-1"></i> สร้างใหม่';
+                            feather.replace();
+                        }
+                    }
+                }
+            })
+            .catch(error => console.error('Error generating QR code:', error));
+        }
+        
+        // สร้าง QR Code ทั้งหมด
+        const generateAllButton = document.getElementById('generate-all-qr');
+        if (generateAllButton) {
+            generateAllButton.addEventListener('click', function() {
+                if (confirm('คุณต้องการสร้าง QR Code ใหม่ทั้งหมดใช่หรือไม่?')) {
+                    generateAllButton.disabled = true;
+                    generateAllButton.innerHTML = '<i data-feather="loader" class="h-4 w-4 mr-2 animate-spin"></i> กำลังสร้าง...';
+                    feather.replace();
+                    
+                    fetch('/api/chickens/generate-all-qr', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('เกิดข้อผิดพลาดในการสร้าง QR Code');
+                            generateAllButton.disabled = false;
+                            generateAllButton.innerHTML = '<i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i> สร้าง QR ใหม่ทั้งหมด';
+                            feather.replace();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error generating all QR codes:', error);
+                        alert('เกิดข้อผิดพลาดในการสร้าง QR Code');
+                        generateAllButton.disabled = false;
+                        generateAllButton.innerHTML = '<i data-feather="refresh-cw" class="h-4 w-4 mr-2"></i> สร้าง QR ใหม่ทั้งหมด';
+                        feather.replace();
+                    });
+                }
+            });
+        }
+        
+        // Modal QR Code
+        const qrModal = document.getElementById('qr-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const modalQRDisplay = document.getElementById('modal-qr-display');
+        const modalChickenName = document.getElementById('modal-chicken-name');
+        const modalChickenId = document.getElementById('modal-chicken-id');
+        const modalPrint = document.getElementById('modal-print');
+        const modalDownload = document.getElementById('modal-download');
+        
+        // แสดง QR Modal
+        function showQRModal(chickenId) {
+            const chickenCard = document.querySelector(`.chicken-card[data-id="${chickenId}"]`);
+            if (chickenCard) {
+                const chickenName = chickenCard.dataset.name;
+                const qrImage = chickenCard.querySelector('.qr-code img');
+                
+                if (qrImage) {
+                    modalChickenName.textContent = chickenName;
+                    modalChickenId.textContent = `รหัส: ${chickenId}`;
+                    modalQRDisplay.innerHTML = `<img src="${qrImage.src}" alt="QR Code ${chickenName}" class="w-64 h-64">`;
+                    modalDownload.href = `/api/chickens/${chickenId}/download-qr`;
+                    
+                    qrModal.classList.remove('hidden');
+                    
+                    // ตั้งค่าปุ่มพิมพ์
+                    modalPrint.onclick = function() {
+                        printQRCode(chickenId);
+                    };
+                }
+            }
+        }
+        
+        // เพิ่ม event listener สำหรับปุ่มพิมพ์ QR
+        const printButtons = document.querySelectorAll('.print-qr');
+        printButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const chickenId = this.dataset.id;
+                showQRModal(chickenId);
+            });
+        });
+        
+        // ปิด QR Modal
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', function() {
+                qrModal.classList.add('hidden');
+            });
+            
+            // ปิดเมื่อคลิกข้างนอก
+            qrModal.addEventListener('click', function(event) {
+                if (event.target === qrModal) {
+                    qrModal.classList.add('hidden');
+                }
+            });
+        }
+        
+        // พิมพ์ QR Code
+        function printQRCode(chickenId) {
+            const chickenCard = document.querySelector(`.chicken-card[data-id="${chickenId}"]`);
+            if (chickenCard) {
+                const chickenName = chickenCard.dataset.name;
+                const qrImage = chickenCard.querySelector('.qr-code img');
+                
+                if (qrImage) {
+                    const printContainer = document.getElementById('print-container');
+                    printContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <h2 style="margin-bottom: 10px;">${chickenName}</h2>
+                            <p style="margin-bottom: 20px; color: #666;">รหัส: ${chickenId}</p>
+                            <img src="${qrImage.src}" alt="QR Code" style="width: 300px; height: 300px;">
+                        </div>
+                    `;
+                    
+                    const printWindow = window.open('', '_blank');
+                    printWindow.document.write(`
+                        <html>
+                            <head>
+                                <title>พิมพ์ QR Code - ${chickenName}</title>
+                                <style>
+                                    body { font-family: 'Sarabun', sans-serif; }
+                                    @media print {
+                                        @page { margin: 0; }
+                                        body { margin: 1cm; }
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                ${printContainer.innerHTML}
+                                <script>
+                                    window.onload = function() {
+                                        window.print();
+                                        setTimeout(function() { window.close(); }, 500);
+                                    };
+                                </script>
+                            </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                }
+            }
+        }
+        
+        // พิมพ์ QR Code ทั้งหมด
+        const printAllButton = document.getElementById('print-all-qr');
+        if (printAllButton) {
+            printAllButton.addEventListener('click', function() {
+                const visibleCards = Array.from(chickenCards).filter(card => card.style.display !== 'none');
+                
+                if (visibleCards.length === 0) {
+                    alert('ไม่มี QR Code ที่จะพิมพ์');
+                    return;
+                }
+                
+                const printContainer = document.getElementById('print-container');
+                printContainer.innerHTML = '';
+                
+                visibleCards.forEach(card => {
+                    const chickenId = card.dataset.id;
+                    const chickenName = card.dataset.name;
+                    const qrImage = card.querySelector('.qr-code img');
+                    
+                    if (qrImage) {
+                        const qrItem = document.createElement('div');
+                        qrItem.style.cssText = 'text-align: center; padding: 15px; float: left; width: 50%; box-sizing: border-box; page-break-inside: avoid;';
+                        qrItem.innerHTML = `
+                            <h3 style="margin-bottom: 5px;">${chickenName}</h3>
+                            <p style="margin-bottom: 10px; color: #666; font-size: 12px;">รหัส: ${chickenId}</p>
+                            <img src="${qrImage.src}" alt="QR Code" style="width: 200px; height: 200px;">
+                        `;
+                        
+                        printContainer.appendChild(qrItem);
+                    }
+                });
+                
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>พิมพ์ QR Code ทั้งหมด</title>
+                            <style>
+                                body { font-family: 'Sarabun', sans-serif; }
+                                @media print {
+                                    @page { margin: 0; }
+                                    body { margin: 1cm; }
+                                }
+                                .clearfix::after {
+                                    content: "";
+                                    clear: both;
+                                    display: table;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="clearfix">
+                                ${printContainer.innerHTML}
+                            </div>
+                            <script>
+                                window.onload = function() {
+                                    window.print();
+                                    setTimeout(function() { window.close(); }, 500);
+                                };
+                            </script>
+                        </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            });
+        }
+    });
+</script>
+{% endblock %} 

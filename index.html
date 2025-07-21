@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แฟ้มสะสมผลงานของฉัน</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="images/s-removebg-preview.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/s-removebg-preview.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/s-removebg-preview.png">
+    <link rel="icon" type="image/png" href="images/s-removebg-preview.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <!-- Stylesheets -->
@@ -20,11 +18,9 @@
     <header>
         <nav>
             <div class="nav-content">
-                <div class="logo-container">
+                <div class="logo">
                     <img src="images/s-removebg-preview.png" alt="CWNK Logo" class="nav-logo">
-                    <div class="logo">
-                        <a href="#home">แฟ้มสะสม<span>ผลงาน</span></a>
-                    </div>
+                    <a href="#home">แฟ้มสะสม<span>ผลงาน</span></a>
                 </div>
                 <div class="menu-toggle" id="menuToggle">
                     <div class="bar"></div>
@@ -56,7 +52,7 @@
             <div class="hero-text">
                 <h1 data-en="Hello" data-th="สวัสดีครับ">สวัสดีครับ</h1>
                 <h2 data-en="Welcome to My Portfolio" data-th="ยินดีต้อนรับสู่ Portfolio ของผม">ยินดีต้อนรับสู่ Portfolio ของผม</h2>
-                <p data-en="A passionate software developer" data-th="นักพัฒนาซอฟต์แวร์ที่มีความหลงใหลในการสร้างสรรค์">นักพัฒนาซอฟต์แวร์ที่มีความหลงใหลในการสร้างสรรค์</p>
+                
                 <div class="hero-buttons">
                     <a href="#contact" class="cta-button primary" data-en="Contact Me" data-th="ติดต่อผม">ติดต่อผม</a>
                     <a href="#projects" class="cta-button secondary" data-en="View Projects" data-th="ดูผลงาน">ดูผลงาน</a>
@@ -74,11 +70,7 @@
         <div class="about-content">
             <div class="about-image">
                 <img src="images/profile1.jpg" alt="Peem's Profile" class="about-profile-image">
-                <div class="about-social">
-                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-                </div>
+                
             </div>
             <div class="about-text">
                 <div class="about-header">
@@ -151,24 +143,202 @@
         </div>
     </section>
 
-    <!-- ส่วนทักษะ -->
-    <section id="skills" class="skills">
-        <h2>ทักษะของฉัน</h2>
-        <div class="skills-content">
-            <div class="skill-card">
-                <i class="fas fa-code"></i>
-                <h3>Web Development</h3>
-                <p>HTML, CSS, JavaScript<br>การพัฒนาเว็บไซต์</p>
-            </div>
-            <div class="skill-card">
-                <i class="fas fa-laptop"></i>
-                <h3>Hardware Expertise</h3>
-                <p>การประกอบคอมพิวเตอร์<br>การแก้ไขปัญหาฮาร์ดแวร์</p>
-            </div>
-            <div class="skill-card">
-                <i class="fas fa-tools"></i>
-                <h3>Computer Repair</h3>
-                <p>การซ่อมบำรุงคอมพิวเตอร์<br>การวิเคราะห์ปัญหาระบบ</p>
+    <!-- Skills Section -->
+    <section class="skills-section" id="skills">
+        <div class="skills-container">
+            <h2>ทักษะของฉัน</h2>
+            <div class="skills-grid">
+                <!-- Programming Languages -->
+                <div class="skill-category">
+                    <h3>ภาษาโปรแกรมมิ่ง</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-percentage">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">HTML/CSS</span>
+                            <span class="skill-percentage">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frameworks & Libraries -->
+                <div class="skill-category">
+                    <h3>เฟรมเวิร์คและไลบรารี</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">React.js</span>
+                            <span class="skill-percentage">65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Node.js</span>
+                            <span class="skill-percentage">60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Laravel</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Databases -->
+                <div class="skill-category">
+                    <h3>ฐานข้อมูล</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">MongoDB</span>
+                            <span class="skill-percentage">65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">PostgreSQL</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">SQLite</span>
+                            <span class="skill-percentage">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & Technologies -->
+                <div class="skill-category">
+                    <h3>เครื่องมือและเทคโนโลยี</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Git</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Docker</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">IoT & Arduino</span>
+                            <span class="skill-percentage">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design & Multimedia -->
+                <div class="skill-category">
+                    <h3>การออกแบบและมัลติมีเดีย</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Canva</span>
+                            <span class="skill-percentage">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Video Editing</span>
+                            <span class="skill-percentage">65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Design</span>
+                            <span class="skill-percentage">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft Skills -->
+                <div class="skill-category">
+                    <h3>ทักษะด้านอื่นๆ</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">การทำงานเป็นทีม</span>
+                            <span class="skill-percentage">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">การแก้ไขปัญหา</span>
+                            <span class="skill-percentage">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">การสื่อสาร</span>
+                            <span class="skill-percentage">95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="--skill-percentage: 95%"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -178,44 +348,371 @@
         <h2>ผลงานของฉัน</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" alt="Web Development Project">
-                <h3>Portfolio Website</h3>
-                <p>เว็บไซต์ Portfolio ส่วนตัวที่พัฒนาด้วย HTML, CSS และ JavaScript โดยเน้นการออกแบบที่ทันสมัยและตอบสนองทุกขนาดหน้าจอ</p>
-                <a href="#" class="project-link">ดูเพิ่มเติม</a>
+                <div class="project-images">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153531_127.0.0.1.jpeg" alt="Shop Management System - หน้าแรก" class="main-image">
+                    <div class="image-preview">
+                        <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153548_127.0.0.1.jpeg" alt="Shop Management - สินค้า">
+                        <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153612_127.0.0.1.jpeg" alt="Shop Management - การขาย">
+                        <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153633_127.0.0.1.jpeg" alt="Shop Management - รายงาน">
+                        <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153653_127.0.0.1.jpeg" alt="Shop Management - สต็อก">
+                    </div>
+                </div>
+                <h3>ระบบจัดการร้านค้า (Python)</h3>
+                <p>ระบบจัดการร้านค้าที่พัฒนาด้วย Python Flask ครอบคลุมการจัดการสินค้า, การขาย, สต็อก, และรายงานต่างๆ พร้อมระบบจัดการผู้ใช้และการรายงานผลแบบ Real-time</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">Bootstrap</span>
+                </div>
+                <button class="project-link" onclick="showProjectDetails('shop-management')">ดูรายละเอียด</button>
             </div>
+
             <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c" alt="Computer Hardware Project">
-                <h3>Computer Assembly & Repair</h3>
-                <p>ประสบการณ์การประกอบและซ่อมแซมคอมพิวเตอร์ รวมถึงการแก้ไขปัญหาฮาร์ดแวร์ต่างๆ ในระหว่างการฝึกงาน</p>
-                <a href="#" class="project-link">ดูเพิ่มเติม</a>
+                <div class="project-images">
+                    <img src="allprojects/OnlineShoeStore/21-7-2025_145224_127.0.0.1.jpeg" alt="Online Shoe Store - หน้าแรก" class="main-image">
+                    <div class="image-preview">
+                        <img src="allprojects/OnlineShoeStore/21-7-2025_145316_127.0.0.1.jpeg" alt="Shoe Store - สินค้า">
+                        <img src="allprojects/OnlineShoeStore/21-7-2025_145330_127.0.0.1.jpeg" alt="Shoe Store - ตะกร้า">
+                        <img src="allprojects/OnlineShoeStore/1-7-2025_145342_127.0.0.1.jpeg" alt="Shoe Store - ชำระเงิน">
+                        <img src="allprojects/OnlineShoeStore/1-7-2025_145358_127.0.0.1.jpeg" alt="Shoe Store - ประวัติ">
+                    </div>
+                </div>
+                <h3>ร้านขายรองเท้าออนไลน์ (Python)</h3>
+                <p>เว็บไซต์ร้านขายรองเท้าออนไลน์ที่พัฒนาด้วย Python Flask มีระบบสมาชิก, ตะกร้าสินค้า, การสั่งซื้อ และการชำระเงิน พร้อมระบบจัดการสินค้าสำหรับผู้ดูแล</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">Bootstrap</span>
+                </div>
+                <button class="project-link" onclick="showProjectDetails('shoe-store')">ดูรายละเอียด</button>
             </div>
+
             <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8" alt="Network Project">
-                <h3>Network Configuration</h3>
-                <p>งานด้านการตั้งค่าและดูแลระบบเครือข่ายที่ Siam IT Networking Thailand Co.Ltd</p>
-                <a href="#" class="project-link">ดูเพิ่มเติม</a>
+                <div class="project-images">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144011_127.0.0.1.jpeg" alt="CWNK Restaurant - หน้าแรก" class="main-image">
+                    <div class="image-preview">
+                        <img src="allprojects/CWNK_Restaurant/21-7-2025_144049_127.0.0.1.jpeg" alt="CWNK Restaurant - แดชบอร์ด">
+                        <img src="allprojects/CWNK_Restaurant/21-7-2025_144110_127.0.0.1.jpeg" alt="CWNK Restaurant - รายการสั่งอาหาร">
+                        <img src="allprojects/CWNK_Restaurant/21-7-2025_144125_127.0.0.1.jpeg" alt="CWNK Restaurant - เมนูอาหาร">
+                        <img src="allprojects/CWNK_Restaurant/21-7-2025_144150_127.0.0.1.jpeg" alt="CWNK Restaurant - เข้าสู่ระบบ">
+                    </div>
+                </div>
+                <h3>ระบบจัดการร้านอาหาร CWNK Restaurant</h3>
+                <p>แอพพลิเคชันจัดการร้านอาหารที่พัฒนาด้วย Python Django รองรับการจัดการเมนูอาหาร, การสั่งอาหาร, การจัดการโต๊ะ และระบบคิดเงิน พร้อมรายงานสรุปยอดขาย</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Django</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Bootstrap</span>
+                </div>
+                <button class="project-link" onclick="showProjectDetails('cwnk-restaurant')">ดูรายละเอียด</button>
+            </div>
+
+            <!-- เพิ่มการ์ดใหม่สำหรับแต่ละรูป -->
+            <div class="project-card">
+                <div class="project-images">
+                    <img src="images/257a32fe2926aafc5bb0bd0dff1587b1.jpg" alt="การซ่อมบำรุง" class="main-image">
+                </div>
+                <h3>การซ่อมบำรุงคอมพิวเตอร์</h3>
+                <p>ประสบการณ์การซ่อมและบำรุงรักษาคอมพิวเตอร์ในมหาลัย ทั้งการประกอบเครื่อง แก้ไขปัญหาฮาร์ดแวร์และซอฟต์แวร์ ติดตั้งระบบปฏิบัติการและโปรแกรมต่างๆ</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Hardware</span>
+                    <span class="tech-tag">PC Assembly</span>
+                    <span class="tech-tag">Troubleshooting</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-images">
+                    <img src="images/2200bb2fa1adf94089970b938bdccfe4.jpg" alt="ทีมพัฒนา" class="main-image">
+                </div>
+                <h3>ทีมพัฒนา</h3>
+                <p>การทำงานร่วมกับทีม ในงานสัปดาวิทยาสตร์ คุมทีมนำเสนองานต่างๆ รวมถึงการประสานงาน วางแผน และแก้ไขปัญหาร่วมกับทีม เพื่อให้งานสำเร็จลุล่วง</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Team Work</span>
+                    <span class="tech-tag">Leadership</span>
+                    <span class="tech-tag">Communication</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-images">
+                    <img src="images/att._mvNdsMZK0EpL80Hy5Wyu5GNf1LiETbUDKJ12-kwWU4.jpg" alt="การพัฒนา - โค้ด" class="main-image">
+                    <div class="image-preview">
+                        <img src="images/att.MhLOcT5yzxmUiq9WssqBmW6zTdqAYHGveixtOqlNYe0.jpg" alt="การพัฒนา - แผนที่">
+                        
+                    </div>
+                </div>
+                <h3>การพัฒนาระบบ</h3>
+                <p>การพัฒนาโค้ดและระบบต่างๆ ในระหว่างการฝึกงานและเรียน เช่น ระบบติดตามรถในมหาวิทยาลัย ระบบจัดการร้านค้า และระบบจัดการร้านอาหาร ใช้เทคโนโลยีที่หลากหลายทั้ง Web, IoT และ Database</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Development</span>
+                    <span class="tech-tag">Web</span>
+                    <span class="tech-tag">IoT</span>
+                    <span class="tech-tag">Database</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-images">
+                    <img src="images/att.813OUgFDEJDRsrogGf4Y97LnFPY3QrducOYEtrgt7j4.png.jpg" alt="การออกแบบ" class="main-image">
+                </div>
+                <h3>การจัดทำโลโก้ต่างๆและโปสเตอร์</h3>
+                <p>จัดการทำโปสเตอร์ อาหาร โปรโมทชั่นต่างๆ ในตอนฝึกงาน ออกแบบสื่อประชาสัมพันธ์ และงานกราฟิกดีไซน์ต่างๆ เพื่อใช้ในการนำเสนอและโปรโมท</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Graphic Design</span>
+                    <span class="tech-tag">Adobe Creative Suite</span>
+                    <span class="tech-tag">Marketing</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-images">
+                    <img src="images/att.PvtiNUVfkgEJeZuJ1CXoAytRdpwr-AINPmrNXx57jAc.jpg" alt="การตัดต่อ" class="main-image">
+                </div>
+                <h3>ตัดต่อวีดีโอและรูปภาพต่างๆ</h3>
+                <p>ในขนานฝึกงานได้ตัดคลิปวีดีโอและรูปภาพต่างๆ เพื่อนำไปใช้ในงานต่างๆ รวมถึงการปรับแต่งภาพ ทำ Motion Graphics และผลิตสื่อมัลติมีเดียต่างๆ</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Video Editing</span>
+                    <span class="tech-tag">Photo Editing</span>
+                    <span class="tech-tag">Motion Graphics</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal สำหรับ Shop Management System -->
+        <div id="shop-management-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>ระบบจัดการร้านค้า - Shop Management System</h2>
+                
+                <div class="modal-images">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153531_127.0.0.1.jpeg" alt="Shop Management - หน้าแรก">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153548_127.0.0.1.jpeg" alt="Shop Management - สินค้า">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153612_127.0.0.1.jpeg" alt="Shop Management - การขาย">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153633_127.0.0.1.jpeg" alt="Shop Management - รายงาน">
+                    <img src="allprojects/shop-management-system/สกรีนช็อต_21-7-2025_153653_127.0.0.1.jpeg" alt="Shop Management - สต็อก">
+                </div>
+
+                <div class="project-details">
+                    <h3>รายละเอียดโปรเจค</h3>
+                    <p>ระบบจัดการร้านค้าที่พัฒนาด้วย Python Flask Framework โดยมีฟีเจอร์หลักดังนี้:</p>
+                    
+                    <h4>ฟีเจอร์หลัก</h4>
+                    <ul>
+                        <li>ระบบจัดการสินค้า - เพิ่ม/แก้ไข/ลบสินค้า, จัดการหมวดหมู่</li>
+                        <li>ระบบขายสินค้า - บันทึกการขาย, ออกใบเสร็จ</li>
+                        <li>ระบบสต็อก - ตรวจสอบและปรับปรุงสต็อก</li>
+                        <li>ระบบรายงาน - รายงานยอดขาย, สินค้าขายดี, สต็อกคงเหลือ</li>
+                        <li>ระบบผู้ใช้ - จัดการพนักงาน, กำหนดสิทธิ์การใช้งาน</li>
+                    </ul>
+
+                    <h4>เทคโนโลยีที่ใช้</h4>
+                    <ul>
+                        <li>Backend: Python Flask</li>
+                        <li>Frontend: HTML, CSS, JavaScript, Bootstrap</li>
+                        <li>Database: SQLite</li>
+                        <li>Authentication: Flask-Login</li>
+                        <li>Reporting: ReportLab</li>
+                    </ul>
+
+                    <h4>Source Code</h4>
+                    <pre><code>
+# ตัวอย่างโค้ด Flask Route สำหรับการขายสินค้า
+@app.route('/sales/create', methods=['POST'])
+@login_required
+def create_sale():
+    data = request.get_json()
+    sale = Sale(
+        customer_name=data['customer_name'],
+        total_amount=data['total_amount'],
+        payment_method=data['payment_method'],
+        seller_id=current_user.id
+    )
+    db.session.add(sale)
+    
+    for item in data['items']:
+        sale_item = SaleItem(
+            sale=sale,
+            product_id=item['product_id'],
+            quantity=item['quantity'],
+            price=item['price']
+        )
+        db.session.add(sale_item)
+        
+        # Update stock
+        product = Product.query.get(item['product_id'])
+        product.stock -= item['quantity']
+        
+    db.session.commit()
+    return jsonify({'status': 'success'})
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal สำหรับ Online Shoe Store -->
+        <div id="shoe-store-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>ร้านขายรองเท้าออนไลน์ - Online Shoe Store</h2>
+                
+                <div class="modal-images">
+                    <img src="allprojects/OnlineShoeStore/21-7-2025_145224_127.0.0.1.jpeg" alt="Shoe Store - หน้าแรก">
+                    <img src="allprojects/OnlineShoeStore/21-7-2025_145316_127.0.0.1.jpeg" alt="Shoe Store - สินค้า">
+                    <img src="allprojects/OnlineShoeStore/21-7-2025_145330_127.0.0.1.jpeg" alt="Shoe Store - ตะกร้า">
+                    <img src="allprojects/OnlineShoeStore/1-7-2025_145342_127.0.0.1.jpeg" alt="Shoe Store - ชำระเงิน">
+                    <img src="allprojects/OnlineShoeStore/1-7-2025_145358_127.0.0.1.jpeg" alt="Shoe Store - ประวัติ">
+                </div>
+
+                <div class="project-details">
+                    <h3>รายละเอียดโปรเจค</h3>
+                    <p>เว็บไซต์ร้านขายรองเท้าออนไลน์ที่พัฒนาด้วย Python Flask Framework โดยมีฟีเจอร์หลักดังนี้:</p>
+                    
+                    <h4>ฟีเจอร์หลัก</h4>
+                    <ul>
+                        <li>ระบบสมาชิก - สมัครสมาชิก, เข้าสู่ระบบ, จัดการโปรไฟล์</li>
+                        <li>ระบบสินค้า - แสดงสินค้า, ค้นหา, กรองตามหมวดหมู่</li>
+                        <li>ระบบตะกร้า - เพิ่ม/ลบสินค้า, ปรับจำนวน</li>
+                        <li>ระบบสั่งซื้อ - ที่อยู่จัดส่ง, เลือกวิธีชำระเงิน</li>
+                        <li>ระบบแอดมิน - จัดการสินค้า, ออเดอร์, สมาชิก</li>
+                    </ul>
+
+                    <h4>เทคโนโลยีที่ใช้</h4>
+                    <ul>
+                        <li>Backend: Python Flask</li>
+                        <li>Frontend: HTML, CSS, JavaScript, Bootstrap</li>
+                        <li>Database: SQLite</li>
+                        <li>Payment: Stripe API</li>
+                        <li>Image Storage: Flask-Upload</li>
+                    </ul>
+
+                    <h4>Source Code</h4>
+                    <pre><code>
+# ตัวอย่างโค้ด Flask Route สำหรับการสั่งซื้อ
+@app.route('/checkout', methods=['POST'])
+@login_required
+def checkout():
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    if not cart or not cart.items:
+        return redirect(url_for('cart'))
+        
+    order = Order(
+        user_id=current_user.id,
+        total_amount=cart.total_amount,
+        shipping_address=request.form['shipping_address'],
+        payment_method=request.form['payment_method']
+    )
+    db.session.add(order)
+    
+    for item in cart.items:
+        order_item = OrderItem(
+            order=order,
+            product_id=item.product_id,
+            quantity=item.quantity,
+            price=item.product.price
+        )
+        db.session.add(order_item)
+        
+        # Update stock
+        product = item.product
+        product.stock -= item.quantity
+        
+    # Clear cart
+    db.session.delete(cart)
+    db.session.commit()
+    
+    return redirect(url_for('order_confirmation', order_id=order.id))
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal สำหรับ CWNK Restaurant -->
+        <div id="cwnk-restaurant-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>CWNK Restaurant - ระบบจัดการร้านอาหาร</h2>
+                
+                <div class="modal-images">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144011_127.0.0.1.jpeg" alt="CWNK Restaurant - หน้าแรก">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144049_127.0.0.1.jpeg" alt="CWNK Restaurant - แดชบอร์ด">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144110_127.0.0.1.jpeg" alt="CWNK Restaurant - รายการสั่งอาหาร">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144125_127.0.0.1.jpeg" alt="CWNK Restaurant - เมนูอาหาร">
+                    <img src="allprojects/CWNK_Restaurant/21-7-2025_144150_127.0.0.1.jpeg" alt="CWNK Restaurant - เข้าสู่ระบบ">
+                </div>
+
+                <div class="project-details">
+                    <h3>รายละเอียดโปรเจค</h3>
+                    <p>CWNK Restaurant เป็นระบบจัดการร้านอาหารที่ครบวงจร พัฒนาด้วย Python Django Framework โดยมีฟีเจอร์หลักดังนี้:</p>
+                    
+                    <h4>ฟีเจอร์หลัก</h4>
+                    <ul>
+                        <li>ระบบจัดการเมนูอาหาร - เพิ่ม/แก้ไข/ลบรายการอาหาร พร้อมรูปภาพ</li>
+                        <li>ระบบสั่งอาหาร - บันทึกออเดอร์ แก้ไขรายการ และติดตามสถานะ</li>
+                        <li>ระบบจัดการโต๊ะ - จองโต๊ะ ตรวจสอบสถานะ</li>
+                        <li>ระบบชำระเงิน - คำนวณราคา ออกใบเสร็จ</li>
+                        <li>รายงานและสถิติ - สรุปยอดขาย รายงานประจำวัน/เดือน</li>
+                        <li>ระบบสมาชิก - จัดการผู้ใช้งาน กำหนดสิทธิ์</li>
+                    </ul>
+
+                    <h4>เทคโนโลยีที่ใช้</h4>
+                    <ul>
+                        <li>Backend: Python Django</li>
+                        <li>Frontend: HTML, CSS, JavaScript, Bootstrap</li>
+                        <li>Database: PostgreSQL</li>
+                        <li>Authentication: Django Authentication System</li>
+                        <li>UI Components: Bootstrap 5</li>
+                    </ul>
+
+                    <h4>Source Code</h4>
+                    <pre><code>
+# ตัวอย่างโค้ด Django Model สำหรับจัดการเมนูอาหาร
+class MenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='menu_items/')
+    is_available = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.name
+
+# ตัวอย่างโค้ด Django View สำหรับแสดงรายการอาหาร
+class MenuListView(ListView):
+    model = MenuItem
+    template_name = 'restaurant/menu_list.html'
+    context_object_name = 'menu_items'
+    
+    def get_queryset(self):
+        return MenuItem.objects.filter(is_available=True)
+        </code></pre>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ส่วนติดต่อ -->
-    <section id="contact" class="contact">
-        <h2>ติดต่อฉัน</h2>
-        <div class="contact-content">
-            <div class="contact-info">
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <h2>ติดต่อฉัน</h2>
+            <div class="contact-grid">
                 <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <p>peemcwnk@gmail.com</p>
+                    <i class="fas fa-envelope contact-icon"></i>
+                    <h4>อีเมล</h4>
+                    <a href="mailto:peemcwnk@gmail.com">peemcwnk@gmail.com</a>
                 </div>
+
                 <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <p>+66  091 743 9468</p>
+                    <i class="fas fa-phone contact-icon"></i>
+                    <h4>โทรศัพท์</h4>
+                    <a href="tel:+66917439468">091-743-9468</a>
                 </div>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
+
+                
             </div>
         </div>
     </section>

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Product Summary -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="{{ shoe.image_url }}" class="w-full h-96 object-cover" alt="{{ shoe.name }}">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ shoe.name }}</h2>
+                <p class="text-gray-600 mb-4">{{ shoe.description }}</p>
+                <div class="flex justify-between items-center">
+                    <p class="footstep-price text-2xl">{{ "%.2f"|format(shoe.price) }} บาท</p>
+                    <span class="text-sm text-gray-500">คงเหลือ: {{ shoe.stock }} คู่</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Form -->
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">กรอกข้อมูลการสั่งซื้อ</h2>
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-2">ชื่อ-นามสกุล</label>
+                    <input type="text" id="customer_name" name="customer_name" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">อีเมล</label>
+                    <input type="email" id="email" name="email" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                </div>
+                <div>
+                    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">จำนวน</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="{{ shoe.stock }}" required
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors">
+                </div>
+
+                <!-- Order Summary -->
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h3 class="text-lg font-semibold mb-4">สรุปคำสั่งซื้อ</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">ราคารองเท้า</span>
+                            <span class="font-medium">{{ "%.2f"|format(shoe.price) }} บาท</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">ค่าจัดส่ง</span>
+                            <span class="font-medium">ฟรี</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-bold pt-2 border-t border-gray-200">
+                            <span>ยอดรวม</span>
+                            <span>{{ "%.2f"|format(shoe.price) }} บาท</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full footstep-button py-4 px-8 rounded-full text-lg font-semibold mt-6">
+                    ดำเนินการชำระเงิน
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shipping Info -->
+    <div class="mt-12 bg-white p-8 rounded-lg shadow-lg">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">ข้อมูลการจัดส่ง</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="text-2xl">🚚</div>
+                <div>
+                    <h4 class="font-semibold">จัดส่งฟรี</h4>
+                    <p class="text-sm text-gray-600">สำหรับการสั่งซื้อเกิน 2,000 บาท</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="text-2xl">⏱️</div>
+                <div>
+                    <h4 class="font-semibold">จัดส่งเร็ว</h4>
+                    <p class="text-sm text-gray-600">ส่งภายใน 1-3 วันทำการ</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="text-2xl">🔄</div>
+                <div>
+                    <h4 class="font-semibold">คืนสินค้าง่าย</h4>
+                    <p class="text-sm text-gray-600">คืนสินค้าได้ภายใน 30 วัน</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

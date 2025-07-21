@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-6 flex justify-between items-center">
+        <a href="{{ url_for('orders') }}" class="text-gray-600 hover:text-gray-900">
+            &larr; กลับไปยังประวัติการสั่งซื้อ
+        </a>
+        <a href="{{ url_for('generate_receipt', order_id=order.id) }}" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+            พิมพ์ใบเสร็จ
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex justify-between items-start mb-6">
+            <div>
+                <h2 class="text-2xl font-bold">คำสั่งซื้อ #{{ order.id }}</h2>
+                <p class="text-gray-600">วันที่สั่งซื้อ: {{ order.order_date.strftime('%d/%m/%Y %H:%M') }}</p>
+            </div>
+            <span class="inline-block px-4 py-2 rounded-full text-sm
+                {% if order.status == 'pending' %}
+                    bg-yellow-100 text-yellow-800
+                {% elif order.status == 'confirmed' %}
+                    bg-blue-100 text-blue-800
+                {% elif order.status == 'shipped' %}
+                    bg-purple-100 text-purple-800
+                {% elif order.status == 'delivered' %}
+                    bg-green-100 text-green-800
+                {% endif %}
+            ">
+                {% if order.status == 'pending' %}
+                    รอการยืนยัน
+                {% elif order.status == 'confirmed' %}
+                    ยืนยันแล้ว
+                {% elif order.status == 'shipped' %}
+                    จัดส่งแล้ว
+                {% elif order.status == 'delivered' %}
+                    จัดส่งสำเร็จ
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h3 class="text-lg font-semibold mb-3">ข้อมูลการจัดส่ง</h3>
+                <div class="bg-gray-50 rounded p-4">
+                    <p class="text-gray-700">{{ order.shipping_address }}</p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-3">วิธีการชำระเงิน</h3>
+                <div class="bg-gray-50 rounded p-4">
+                    <p class="text-gray-700">{{ order.payment_method }}</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="text-lg font-semibold mb-4">รายการสินค้า</h3>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">สินค้า</th>
+                        <th class="px-6 py-3 text-center text-sm font-semibold text-gray-600">ขนาด</th>
+                        <th class="px-6 py-3 text-center text-sm font-semibold text-gray-600">จำนวน</th>
+                        <th class="px-6 py-3 text-right text-sm font-semibold text-gray-600">ราคา</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for item in order.order_items %}
+                    <tr>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                {% if item.shoe %}
+                                <img src="{{ item.shoe.image_url }}" alt="{{ item.shoe.name }}" class="w-16 h-16 object-cover rounded">
+                                <div class="ml-4">
+                                    <p class="font-semibold">{{ item.shoe.name }}</p>
+                                </div>
+                                {% else %}
+                                <div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+                                    <span class="text-gray-500">ไม่มีรูป</span>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="font-semibold">สินค้าไม่มีในระบบ</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">{{ item.size }}</td>
+                        <td class="px-6 py-4 text-center">{{ item.quantity }}</td>
+                        <td class="px-6 py-4 text-right">฿{{ "%.2f"|format(item.price * item.quantity) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="bg-gray-50">
+                    <tr>
+                        <td colspan="3" class="px-6 py-4 text-right font-semibold">ยอดรวมทั้งหมด</td>
+                        <td class="px-6 py-4 text-right font-bold">฿{{ "%.2f"|format(order.total_price) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

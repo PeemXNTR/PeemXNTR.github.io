@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}เพิ่มไก่ใหม่ - ระบบจัดการฟาร์มไก่{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">เพิ่มข้อมูลไก่ใหม่</h1>
+        <p class="text-gray-600 mt-1">กรอกข้อมูลไก่ใหม่ที่ต้องการเพิ่มเข้าระบบ</p>
+    </div>
+    <a href="{{ url_for('chickens') }}" class="text-sm text-gray-600 hover:text-primary flex items-center">
+        <i data-feather="arrow-left" class="h-4 w-4 mr-1"></i>
+        <span>กลับไปหน้าจัดการไก่</span>
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+    <form method="POST" action="{{ url_for('add_chicken') }}" class="space-y-6">
+        <div class="grid sm:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">ชื่อไก่ <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="ระบุชื่อไก่">
+                </div>
+                
+                <div>
+                    <label for="breed" class="block text-sm font-medium text-gray-700 mb-1">สายพันธุ์ <span class="text-red-500">*</span></label>
+                    <select id="breed" name="breed" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors appearance-none bg-white">
+                        <option value="" disabled selected>-- เลือกสายพันธุ์ --</option>
+                        <option value="ไก่ไข่">ไก่ไข่</option>
+                        <option value="ไก่เนื้อ">ไก่เนื้อ</option>
+                        <option value="ไก่พื้นเมือง">ไก่พื้นเมือง</option>
+                        <option value="ไก่ชน">ไก่ชน</option>
+                        <option value="ไก่แจ้">ไก่แจ้</option>
+                        <option value="ไก่งวง">ไก่งวง</option>
+                        <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="age" class="block text-sm font-medium text-gray-700 mb-1">อายุ (เดือน) <span class="text-red-500">*</span></label>
+                    <input type="number" id="age" name="age" min="0" step="1" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="ระบุอายุเป็นเดือน">
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label for="weight" class="block text-sm font-medium text-gray-700 mb-1">น้ำหนัก (กก.) <span class="text-red-500">*</span></label>
+                    <input type="number" id="weight" name="weight" min="0" step="0.1" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="ระบุน้ำหนักเป็นกิโลกรัม">
+                </div>
+                
+                <div>
+                    <label for="health_status" class="block text-sm font-medium text-gray-700 mb-1">สถานะสุขภาพ <span class="text-red-500">*</span></label>
+                    <select id="health_status" name="health_status" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors appearance-none bg-white">
+                        <option value="" disabled selected>-- เลือกสถานะสุขภาพ --</option>
+                        <option value="ดี">ดี</option>
+                        <option value="ปานกลาง">ปานกลาง</option>
+                        <option value="แย่">แย่</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="egg_production_rate" class="block text-sm font-medium text-gray-700 mb-1">อัตราการออกไข่ (%) <span class="text-red-500">*</span></label>
+                    <input type="number" id="egg_production_rate" name="egg_production_rate" min="0" max="100" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="ระบุอัตราการออกไข่เป็นเปอร์เซ็นต์">
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">หมายเหตุ</label>
+            <textarea id="notes" name="notes" rows="3"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                placeholder="บันทึกรายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+        </div>
+        
+        <div class="pt-4 flex flex-col sm:flex-row sm:justify-between gap-3">
+            <div class="text-sm text-gray-600">
+                <span class="text-red-500">*</span> ข้อมูลที่จำเป็นต้องกรอก
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{{ url_for('chickens') }}" 
+                    class="w-full sm:w-auto px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-center">
+                    ยกเลิก
+                </a>
+                <button type="submit" 
+                    class="w-full sm:w-auto px-6 py-2 bg-primary hover:bg-accent text-white rounded-lg transition-colors flex items-center justify-center">
+                    <i data-feather="save" class="h-4 w-4 mr-2"></i>
+                    บันทึกข้อมูล
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // เพิ่ม custom dropdown styling
+    document.addEventListener('DOMContentLoaded', function() {
+        const selects = document.querySelectorAll('select');
+        
+        selects.forEach(select => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative';
+            
+            const icon = document.createElement('div');
+            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>';
+            icon.className = 'pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3';
+            
+            select.parentNode.insertBefore(wrapper, select);
+            wrapper.appendChild(select);
+            wrapper.appendChild(icon);
+        });
+    });
+</script>
+{% endblock %} 

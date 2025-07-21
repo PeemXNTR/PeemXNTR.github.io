@@ -72,6 +72,50 @@ function smoothScroll(target) {
     });
 }
 
+// Project Modal Functions
+function showProjectDetails(projectId) {
+    const modal = document.getElementById(projectId + '-modal');
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close modal when clicking the close button or outside the modal
+document.addEventListener('DOMContentLoaded', function() {
+    const modals = document.querySelectorAll('.modal');
+    const closeButtons = document.querySelectorAll('.close');
+
+    closeButtons.forEach(button => {
+        button.onclick = function() {
+            const modal = button.closest('.modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    modals.forEach(modal => {
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+    });
+});
+
+// Image Preview Functions
+document.addEventListener('DOMContentLoaded', function() {
+    const previewImages = document.querySelectorAll('.image-preview img');
+    
+    previewImages.forEach(img => {
+        img.onclick = function() {
+            const mainImage = img.closest('.project-images').querySelector('.main-image');
+            const tempSrc = mainImage.src;
+            mainImage.src = img.src;
+            img.src = tempSrc;
+        }
+    });
+});
+
 // เพิ่ม Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // เพิ่มคลาส fade-in ให้กับทุกเซ็กชัน

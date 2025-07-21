@@ -1,0 +1,65 @@
+# ที่จอดรถหน้ามหาวิทยาลัย
+{"latitude":9.07940,"longitude":99.36470,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# วงเวียนหน้ามอ
+{"latitude":9.080019,"longitude":99.363782,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# อาคารเฉลิมพระเกียรติ 80 พรรษา
+{"latitude":9.078802,"longitude":99.362825,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# สํานักงานจัดการทรัพย์สิน ม.ราชภัฏสุราษฏร์ธานี
+{"latitude":9.079612,"longitude":99.363887,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ตึกคณะตึกพยาบาล
+{"latitude":9.080661,"longitude":99.363973,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# คณะมนุษยศาสตร์และสังคมศาสตร์
+{"latitude":9.082669,"longitude":99.364251,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ลานกิจกรรม
+{"latitude":9.083283,"longitude":99.364461,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ตึกทีปังกอนรัศมีโชติ
+{"latitude":9.083262,"longitude":99.366150,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ตึกเทคโนโลยีการประมง
+{"latitude":9.083069,"longitude":99.366110,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ตึกสุนทรียศาสตร์ sru
+{"latitude":9.088062,"longitude":99.363297,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# อาคารวิทยาศาสตร์สุขภาพ
+{"latitude":9.085271,"longitude":99.363621,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ตลาดนัด ม.ราชภัฏสุราษฏร์ธานี
+{"latitude":9.083774526467632,"longitude":99.36186169383151,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# เคาน์เตอร์ไปรษณีย์ สาขามหาวิทยาลัยราชภัฎสุราษฎ์ธานี
+{"latitude":9.082463481806721,"longitude":99.36215137240207,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# สถาบันวิจัยและพัฒนา
+{"latitude":9.081888739499783,"longitude":99.3626341700132,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# วิทยาลัยนานาชาติการท่องเที่ยว มหาวิทยาลัยราชภัฏสุราษฎร์ธานี
+{"latitude":9.081915225337232,"longitude":99.36407451623151,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# SRU Car Care
+{"latitude":9.081009408475765,"longitude":99.36578040116493,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# อาคารปฏิบัติการเทคโนโลยีการจัดการอุตสาหกรรม
+{"latitude":9.081453047130365,"longitude":99.36587360792352,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# Choux B Do สาขาเมืองสุราษฎร์ธานี
+{"latitude":9.081680590833841,"longitude":99.36630309657659,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ศูนย์การเรียนรู้การจัดการขยะแบบครบวงจร
+{"latitude":9.085692566090945,"longitude":99.36143593411308,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# แปลงฝึก สาขานวัตกรรมทางการเกษตร
+{"latitude":9.085952124490847,"longitude":99.36163575868449,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# ลานจอดรถบัณฑิต มรส. บัตรเหลือง
+{"latitude":9.08689858260727,"longitude":99.36235523548349,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}
+
+# คณะวิทยาการจัดการ
+{"latitude":9.085945104371051,"longitude":99.36311698289738,"speed":17,"altitude":15.23,"satellites":8,"device":"tracker"}

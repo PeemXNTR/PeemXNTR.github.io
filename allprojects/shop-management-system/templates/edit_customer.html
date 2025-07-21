@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">แก้ไขข้อมูลลูกค้า</h1>
+
+        <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">ชื่อลูกค้า *</label>
+                <input type="text" name="name" id="name" value="{{ customer.name }}" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="customer_type" class="block text-gray-700 text-sm font-bold mb-2">ประเภทลูกค้า</label>
+                <select name="customer_type" id="customer_type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="ทั่วไป" {% if customer.customer_type == 'ทั่วไป' %}selected{% endif %}>ลูกค้าทั่วไป</option>
+                    <option value="ประจำ" {% if customer.customer_type == 'ประจำ' %}selected{% endif %}>ลูกค้าประจำ</option>
+                    <option value="ขายส่ง" {% if customer.customer_type == 'ขายส่ง' %}selected{% endif %}>ลูกค้าขายส่ง</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">เบอร์โทรศัพท์</label>
+                <input type="tel" name="phone" id="phone" value="{{ customer.phone }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">อีเมล</label>
+                <input type="email" name="email" id="email" value="{{ customer.email }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="address" class="block text-gray-700 text-sm font-bold mb-2">ที่อยู่</label>
+                <textarea name="address" id="address" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ customer.address }}</textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="notes" class="block text-gray-700 text-sm font-bold mb-2">หมายเหตุ</label>
+                <textarea name="notes" id="notes" rows="2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ customer.notes }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    บันทึกข้อมูล
+                </button>
+                <a href="{{ url_for('customers') }}" class="text-gray-600 hover:text-gray-800">ยกเลิก</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

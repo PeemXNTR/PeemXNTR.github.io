@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">ตะกร้าสินค้า</h1>
+
+    {% if cart_items %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- รายการสินค้า -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-6 space-y-6">
+                        {% for item in cart_items %}
+                            <div class="flex items-center space-x-4 {% if not loop.last %}border-b border-gray-200 pb-6{% endif %}">
+                                <!-- รูปภาพสินค้า -->
+                                <div class="flex-shrink-0 w-24 h-24">
+                                    <img src="{{ item.shoe.image_url }}" alt="{{ item.shoe.name }}" 
+                                         class="w-full h-full object-cover rounded-lg">
+                                </div>
+
+                                <!-- รายละเอียดสินค้า -->
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-gray-900">{{ item.shoe.name }}</h3>
+                                    <p class="text-sm text-gray-600">ไซส์: {{ item.size }}</p>
+                                    <p class="text-sm font-medium text-gray-900">฿{{ "%.2f"|format(item.shoe.price) }}</p>
+                                </div>
+
+                                <!-- ปรับจำนวน -->
+                                <div class="flex items-center space-x-2">
+                                    <form action="{{ url_for('update_cart_item', item_id=item.id) }}" method="POST" 
+                                          class="flex items-center space-x-2">
+                                        <button type="submit" name="action" value="decrease" 
+                                                class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-black">
+                                            -
+                                        </button>
+                                        <span class="w-8 text-center">{{ item.quantity }}</span>
+                                        <button type="submit" name="action" value="increase"
+                                                class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-black">
+                                            +
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!-- ราคารวม -->
+                                <div class="text-right">
+                                    <p class="text-lg font-semibold text-gray-900">
+                                        ฿{{ "%.2f"|format(item.shoe.price * item.quantity) }}
+                                    </p>
+                                </div>
+
+                                <!-- ปุ่มลบ -->
+                                <form action="{{ url_for('remove_from_cart', item_id=item.id) }}" method="POST">
+                                    <button type="submit" class="text-gray-400 hover:text-red-500">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                  d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- สรุปคำสั่งซื้อ -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">สรุปคำสั่งซื้อ</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">ราคาสินค้า</span>
+                            <span class="font-medium">฿{{ "%.2f"|format(total) }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">ค่าจัดส่ง</span>
+                            <span class="font-medium">ฟรี</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold">ยอดรวมทั้งหมด</span>
+                                <span class="text-lg font-semibold">฿{{ "%.2f"|format(total) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('checkout') }}" 
+                       class="mt-6 w-full bg-black text-white py-3 px-4 rounded-full text-center font-semibold
+                              hover:bg-gray-800 transition-colors duration-300">
+                        ดำเนินการสั่งซื้อ
+                    </a>
+                </div>
+
+                <!-- ช่องใส่โค้ดส่วนลด -->
+                <div class="bg-white rounded-lg shadow p-6 mt-4">
+                    <h3 class="text-sm font-semibold text-gray-900 mb-4">โค้ดส่วนลด</h3>
+                    <form class="flex space-x-2">
+                        <input type="text" placeholder="ใส่โค้ดส่วนลด" 
+                               class="flex-1 border-gray-300 rounded-lg focus:ring-black focus:border-black">
+                        <button type="submit" 
+                                class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
+                            ใช้โค้ด
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-12">
+            <div class="mb-6">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">ตะกร้าสินค้าว่างเปล่า</h2>
+            <p class="text-gray-600 mb-6">เริ่มช้อปปิ้งเพื่อเพิ่มสินค้าในตะกร้า</p>
+            <a href="{{ url_for('index') }}" 
+               class="inline-block bg-black text-white py-3 px-8 rounded-full font-semibold
+                      hover:bg-gray-800 transition-colors duration-300">
+                กลับไปช้อปปิ้ง
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

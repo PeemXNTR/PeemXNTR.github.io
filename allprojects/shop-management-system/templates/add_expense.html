@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">เพิ่มข้อมูลค่าใช้จ่าย</h1>
+
+        <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-4">
+                <label for="date" class="block text-gray-700 text-sm font-bold mb-2">วันที่</label>
+                <input type="date" name="date" id="date" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="mb-4">
+                <label for="category" class="block text-gray-700 text-sm font-bold mb-2">หมวดหมู่</label>
+                <select name="category" id="category" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="">เลือกหมวดหมู่</option>
+                    <option value="อาหาร">อาหาร</option>
+                    <option value="ยา">ยา</option>
+                    <option value="วัสดุอุปกรณ์">วัสดุอุปกรณ์</option>
+                    <option value="ค่าบำรุงรักษา">ค่าบำรุงรักษา</option>
+                    <option value="ค่าจ้างแรงงาน">ค่าจ้างแรงงาน</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 text-sm font-bold mb-2">รายละเอียด</label>
+                <textarea name="description" id="description" required rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">จำนวนเงิน (บาท)</label>
+                <input type="number" name="amount" id="amount" required min="0" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    บันทึกข้อมูล
+                </button>
+                <a href="{{ url_for('expenses') }}" class="text-gray-600 hover:text-gray-800">ยกเลิก</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

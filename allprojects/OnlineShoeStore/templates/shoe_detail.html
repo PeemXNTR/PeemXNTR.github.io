@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- รูปภาพสินค้า -->
+        <div class="relative">
+            <div class="sticky top-24">
+                <img src="{{ shoe.image_url }}" alt="{{ shoe.name }}" class="w-full h-auto rounded-lg shadow-lg">
+                
+                <!-- แกลเลอรี่รูปภาพขนาดเล็ก (ถ้ามี) -->
+                <div class="grid grid-cols-4 gap-4 mt-4">
+                    <div class="aspect-square bg-gray-100 rounded-lg cursor-pointer hover:opacity-75 transition-opacity">
+                        <img src="{{ shoe.image_url }}" alt="{{ shoe.name }}" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- รายละเอียดสินค้า -->
+        <div class="space-y-6">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ shoe.name }}</h1>
+                <p class="mt-2 text-2xl font-semibold text-gray-900">฿{{ "%.2f"|format(shoe.price) }}</p>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-lg font-semibold text-gray-900">รายละเอียด</h2>
+                <p class="mt-4 text-gray-600">{{ shoe.description }}</p>
+            </div>
+
+            <!-- เลือกขนาดและจำนวน -->
+            <form action="{{ url_for('add_to_cart', shoe_id=shoe.id) }}" method="POST" class="space-y-6">
+                <div>
+                    <label for="size" class="block text-lg font-semibold text-gray-900">เลือกขนาด</label>
+                    <div class="grid grid-cols-4 gap-2 mt-2">
+                        {% for size in shoe.sizes %}
+                            {% if size.stock > 0 %}
+                                <label class="relative">
+                                    <input type="radio" name="size" value="{{ size.size }}" class="peer sr-only">
+                                    <div class="w-full text-center py-3 border rounded-lg cursor-pointer 
+                                                peer-checked:bg-black peer-checked:text-white 
+                                                hover:border-black transition-colors">
+                                        {{ size.size }}
+                                    </div>
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="quantity" class="block text-lg font-semibold text-gray-900">จำนวน</label>
+                    <div class="flex items-center mt-2 space-x-2">
+                        <button type="button" onclick="decrementQuantity()" 
+                                class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:border-black">
+                            -
+                        </button>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" max="10"
+                               class="w-20 text-center border-gray-300 rounded-lg focus:ring-black focus:border-black">
+                        <button type="button" onclick="incrementQuantity()" 
+                                class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:border-black">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-black text-white py-4 rounded-full text-lg font-semibold
+                               hover:bg-gray-800 transition-colors duration-300">
+                    เพิ่มลงตะกร้า
+                </button>
+            </form>
+
+            <!-- สต็อกสินค้า -->
+            <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-lg font-semibold text-gray-900">สถานะสินค้า</h2>
+                <div class="mt-4 grid grid-cols-2 gap-4">
+                    {% for size in shoe.sizes %}
+                        <div class="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                            <span>ไซส์ {{ size.size }}</span>
+                            <span class="font-medium {% if size.stock > 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                                {% if size.stock > 0 %}
+                                    มีสินค้า ({{ size.stock }})
+                                {% else %}
+                                    สินค้าหมด
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- รีวิวสินค้า -->
+            <div class="border-t border-gray-200 pt-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-gray-900">รีวิวจากลูกค้า</h2>
+                    {% if 'user_id' in session %}
+                        <button onclick="toggleReviewForm()" 
+                                class="text-sm font-medium text-black hover:text-gray-600">
+                            เขียนรีวิว
+                        </button>
+                    {% endif %}
+                </div>
+
+                <!-- ฟอร์มเขียนรีวิว -->
+                {% if 'user_id' in session %}
+                    <form id="reviewForm" action="{{ url_for('add_review', shoe_id=shoe.id) }}" method="POST" 
+                          class="hidden mt-4 space-y-4 bg-gray-50 p-4 rounded-lg">
+                        <div>
+                            <label for="rating" class="block text-sm font-medium text-gray-700">คะแนน</label>
+                            <div class="flex items-center space-x-2 mt-1">
+                                {% for i in range(1, 6) %}
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="rating" value="{{ i }}" class="sr-only peer">
+                                        <svg class="w-8 h-8 peer-checked:text-yellow-400 text-gray-300"
+                                             fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div>
+                            <label for="comment" class="block text-sm font-medium text-gray-700">ความคิดเห็น</label>
+                            <textarea name="comment" rows="3" 
+                                      class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black"></textarea>
+                        </div>
+                        <button type="submit" 
+                                class="w-full bg-black text-white py-2 rounded-lg text-sm font-semibold
+                                       hover:bg-gray-800 transition-colors duration-300">
+                            ส่งรีวิว
+                        </button>
+                    </form>
+                {% endif %}
+
+                <!-- แสดงรีวิว -->
+                <div class="mt-6 space-y-6">
+                    {% if reviews %}
+                        {% for review in reviews %}
+                            <div class="border-b border-gray-200 pb-6">
+                                <div class="flex items-center mb-2">
+                                    <div class="flex text-yellow-400">
+                                        {% for i in range(review.rating) %}
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="ml-2 text-sm text-gray-600">
+                                        {{ review.date.strftime('%d/%m/%Y') }}
+                                    </span>
+                                </div>
+                                <p class="text-gray-600">{{ review.comment }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-gray-600 text-center py-4">ยังไม่มีรีวิว เป็นคนแรกที่รีวิวสินค้านี้</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function incrementQuantity() {
+    const input = document.getElementById('quantity');
+    if (input.value < 10) {
+        input.value = parseInt(input.value) + 1;
+    }
+}
+
+function decrementQuantity() {
+    const input = document.getElementById('quantity');
+    if (input.value > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function toggleReviewForm() {
+    const form = document.getElementById('reviewForm');
+    form.classList.toggle('hidden');
+}
+</script>
+{% endblock %} 

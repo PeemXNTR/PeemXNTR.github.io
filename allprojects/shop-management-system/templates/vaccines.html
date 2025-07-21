@@ -1,0 +1,782 @@
+{% extends 'base.html' %}
+
+{% block title %}จัดการวัคซีนและการรักษา - ระบบจัดการฟาร์มไก่{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">จัดการวัคซีนและการรักษา</h1>
+        <p class="text-gray-600 mt-1">บันทึกและติดตามการให้วัคซีนและการรักษาโรคของไก่</p>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-2">
+        <a href="{{ url_for('add_vaccination') }}" class="bg-primary hover:bg-accent text-white py-2 px-4 rounded-lg inline-flex items-center text-sm justify-center">
+            <i data-feather="droplet" class="h-4 w-4 mr-2"></i>
+            <span>บันทึกการให้วัคซีน</span>
+        </a>
+        <a href="{{ url_for('add_treatment') }}" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg inline-flex items-center text-sm justify-center">
+            <i data-feather="activity" class="h-4 w-4 mr-2"></i>
+            <span>บันทึกการรักษา</span>
+        </a>
+    </div>
+</div>
+
+<!-- แท็บการแสดงผล -->
+<div class="border-b border-gray-200 mb-6">
+    <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+        <button id="tab-vaccines" class="tab-btn border-primary text-primary py-4 px-1 border-b-2 font-medium text-sm">
+            การให้วัคซีน
+        </button>
+        <button id="tab-treatments" class="tab-btn text-gray-500 hover:text-gray-700 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+            การรักษาโรค
+        </button>
+        <button id="tab-upcoming" class="tab-btn text-gray-500 hover:text-gray-700 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+            การแจ้งเตือนที่จะถึง
+        </button>
+        <button id="tab-history" class="tab-btn text-gray-500 hover:text-gray-700 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+            ประวัติทั้งหมด
+        </button>
+    </nav>
+</div>
+
+<!-- ส่วนการค้นหาและกรอง -->
+<div class="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-100">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
+            </div>
+            <input type="text" id="search-input" placeholder="ค้นหาชื่อไก่ หรือชื่อวัคซีน..." 
+                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div>
+            <select id="filter-chicken" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="all">ทุกตัว</option>
+                {% for chicken in chickens %}
+                    <option value="{{ chicken.id }}">{{ chicken.name }} ({{ chicken.breed }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <div class="flex space-x-2">
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i data-feather="calendar" class="h-4 w-4 text-gray-400"></i>
+                    </div>
+                    <input type="date" id="filter-date" 
+                        class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <button id="clear-filters" class="px-3 py-2 text-gray-500 hover:text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i data-feather="x" class="h-4 w-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- แสดงผลวัคซีน -->
+<div id="vaccines-content" class="tab-content">
+    {% if vaccinations %}
+        <div class="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ไก่
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ชื่อวัคซีน
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            วันที่ให้วัคซีน
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                            วันที่ต้องให้ครั้งถัดไป
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                            ผู้ให้วัคซีน
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            การจัดการ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for vaccination in vaccinations %}
+                    <tr class="vaccine-row hover:bg-gray-50" data-chicken-id="{{ vaccination.chicken_id }}" data-date="{{ vaccination.date_given }}">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                    {% if vaccination.chicken.image %}
+                                        <img class="h-8 w-8 rounded-full" src="{{ vaccination.chicken.image }}" alt="{{ vaccination.chicken.name }}">
+                                    {% else %}
+                                        <span class="text-sm font-medium text-gray-500">{{ vaccination.chicken.name[:1] }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-medium text-gray-900">{{ vaccination.chicken.name }}</div>
+                                    <div class="text-xs text-gray-500">{{ vaccination.chicken.breed }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                {% if 'ND' in vaccination.vaccine_name %}bg-blue-100 text-blue-800
+                                {% elif 'IB' in vaccination.vaccine_name %}bg-green-100 text-green-800
+                                {% elif 'Mareks' in vaccination.vaccine_name %}bg-purple-100 text-purple-800
+                                {% elif 'Gumboro' in vaccination.vaccine_name %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ vaccination.vaccine_name }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ vaccination.date_given }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm hidden lg:table-cell">
+                            {% if vaccination.next_due_date %}
+                                <span class="{% if vaccination.next_due_date <= today %}text-red-600 font-medium{% else %}text-gray-500{% endif %}">
+                                    {{ vaccination.next_due_date }}
+                                </span>
+                                {% if vaccination.next_due_date <= today %}
+                                    <span class="ml-2 text-xs text-red-600">ถึงกำหนดแล้ว</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="text-gray-400">ไม่มีกำหนด</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden md:table-cell">
+                            {{ vaccination.vet_name or 'ไม่ระบุ' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <div class="flex space-x-1">
+                                <a href="{{ url_for('view_vaccination', vaccination_id=vaccination.id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                    <i data-feather="eye" class="h-4 w-4"></i>
+                                </a>
+                                <a href="{{ url_for('edit_vaccination', vaccination_id=vaccination.id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 rounded-md p-1" title="แก้ไข">
+                                    <i data-feather="edit" class="h-4 w-4"></i>
+                                </a>
+                                <button onclick="confirmDelete('{{ vaccination.id }}', 'vaccination')" class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 rounded-md p-1" title="ลบ">
+                                    <i data-feather="trash-2" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+            <div class="flex flex-col items-center justify-center">
+                <i data-feather="droplet" class="h-16 w-16 text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-900 mb-2">ยังไม่มีข้อมูลการให้วัคซีน</h3>
+                <p class="text-gray-600 max-w-md mx-auto mb-6">คุณยังไม่มีข้อมูลการให้วัคซีนในระบบ คลิกปุ่มด้านล่างเพื่อเริ่มบันทึกการให้วัคซีนแก่ไก่</p>
+                <a href="{{ url_for('add_vaccination') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-accent">
+                    <i data-feather="droplet" class="h-4 w-4 mr-2"></i>
+                    บันทึกการให้วัคซีนใหม่
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- แสดงผลการรักษาโรค -->
+<div id="treatments-content" class="tab-content hidden">
+    {% if health_records %}
+        <div class="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ไก่
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            อาการ
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                            การรักษา
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            วันที่รักษา
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            สถานะ
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            การจัดการ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for record in health_records %}
+                    <tr class="treatment-row hover:bg-gray-50" data-chicken-id="{{ record.chicken_id }}" data-date="{{ record.date }}">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                    {% if record.chicken.image %}
+                                        <img class="h-8 w-8 rounded-full" src="{{ record.chicken.image }}" alt="{{ record.chicken.name }}">
+                                    {% else %}
+                                        <span class="text-sm font-medium text-gray-500">{{ record.chicken.name[:1] }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-medium text-gray-900">{{ record.chicken.name }}</div>
+                                    <div class="text-xs text-gray-500">{{ record.chicken.breed }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900">{{ record.symptoms|truncate(30) }}</div>
+                        </td>
+                        <td class="px-6 py-4 hidden lg:table-cell">
+                            <div class="text-sm text-gray-900">{{ record.treatment|truncate(30) }}</div>
+                            {% if record.medicine %}
+                                <div class="text-xs text-gray-500">ยา: {{ record.medicine }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ record.date }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {% if record.status == 'รักษา' %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-green-100 text-green-800{% endif %}">
+                                {{ record.status }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <div class="flex space-x-1">
+                                <a href="{{ url_for('view_treatment', treatment_id=record.id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                    <i data-feather="eye" class="h-4 w-4"></i>
+                                </a>
+                                <a href="{{ url_for('edit_treatment', treatment_id=record.id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 rounded-md p-1" title="แก้ไข">
+                                    <i data-feather="edit" class="h-4 w-4"></i>
+                                </a>
+                                <button onclick="confirmDelete('{{ record.id }}', 'treatment')" class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 rounded-md p-1" title="ลบ">
+                                    <i data-feather="trash-2" class="h-4 w-4"></i>
+                                </button>
+                                {% if record.status == 'รักษา' %}
+                                    <button onclick="markAsRecovered('{{ record.id }}')" class="text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100 rounded-md p-1" title="ทำเครื่องหมายว่าหายแล้ว">
+                                        <i data-feather="check" class="h-4 w-4"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+            <div class="flex flex-col items-center justify-center">
+                <i data-feather="activity" class="h-16 w-16 text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-900 mb-2">ยังไม่มีข้อมูลการรักษาโรค</h3>
+                <p class="text-gray-600 max-w-md mx-auto mb-6">คุณยังไม่มีข้อมูลการรักษาโรคในระบบ คลิกปุ่มด้านล่างเพื่อเริ่มบันทึกข้อมูลการรักษา</p>
+                <a href="{{ url_for('add_treatment') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                    <i data-feather="activity" class="h-4 w-4 mr-2"></i>
+                    บันทึกการรักษาใหม่
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- แสดงการแจ้งเตือนที่จะถึง -->
+<div id="upcoming-content" class="tab-content hidden">
+    {% if upcoming_vaccinations or upcoming_treatments %}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {% if upcoming_vaccinations %}
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b bg-blue-50 border-blue-100">
+                        <h3 class="text-lg font-medium text-gray-900">การให้วัคซีนที่กำลังจะถึง</h3>
+                        <p class="text-sm text-gray-600 mt-1">รายการวัคซีนที่ต้องให้ในอีก 7 วันข้างหน้า</p>
+                    </div>
+                    <ul class="divide-y divide-gray-200">
+                        {% for vaccination in upcoming_vaccinations %}
+                            <li class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">{{ vaccination.chicken.name }} - {{ vaccination.vaccine_name }}</p>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            <span class="inline-flex items-center">
+                                                <i data-feather="calendar" class="h-3 w-3 mr-1"></i>
+                                                วันที่: {{ vaccination.next_due_date }}
+                                            </span>
+                                            <span class="inline-flex items-center ml-3">
+                                                {% set days_left = (vaccination.next_due_date - today).days %}
+                                                <i data-feather="clock" class="h-3 w-3 mr-1"></i>
+                                                {% if days_left <= 0 %}
+                                                    <span class="text-red-600">ถึงกำหนดแล้ว</span>
+                                                {% else %}
+                                                    อีก {{ days_left }} วัน
+                                                {% endif %}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <a href="{{ url_for('add_vaccination', chicken_id=vaccination.chicken_id, vaccine=vaccination.vaccine_name) }}" class="text-primary hover:text-accent text-xs inline-flex items-center">
+                                        <i data-feather="droplet" class="h-3 w-3 mr-1"></i>
+                                        บันทึกการให้วัคซีน
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            {% if ongoing_treatments %}
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b bg-yellow-50 border-yellow-100">
+                        <h3 class="text-lg font-medium text-gray-900">การรักษาที่กำลังดำเนินอยู่</h3>
+                        <p class="text-sm text-gray-600 mt-1">การรักษาโรคที่ยังไม่สิ้นสุดและต้องติดตาม</p>
+                    </div>
+                    <ul class="divide-y divide-gray-200">
+                        {% for treatment in ongoing_treatments %}
+                            <li class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900">{{ treatment.chicken.name }} - {{ treatment.symptoms|truncate(30) }}</p>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            <span class="inline-flex items-center">
+                                                <i data-feather="calendar" class="h-3 w-3 mr-1"></i>
+                                                เริ่มรักษา: {{ treatment.date }}
+                                            </span>
+                                            <span class="inline-flex items-center ml-3">
+                                                {% set days_passed = (today - treatment.date).days %}
+                                                <i data-feather="clock" class="h-3 w-3 mr-1"></i>
+                                                {{ days_passed }} วันที่ผ่านมา
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <button onclick="markAsRecovered('{{ treatment.id }}')" class="text-green-600 hover:text-green-800 text-xs inline-flex items-center">
+                                        <i data-feather="check" class="h-3 w-3 mr-1"></i>
+                                        บันทึกว่าหายแล้ว
+                                    </button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+            <div class="flex flex-col items-center justify-center">
+                <i data-feather="bell" class="h-16 w-16 text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-900 mb-2">ไม่มีการแจ้งเตือนที่กำลังจะถึง</h3>
+                <p class="text-gray-600 max-w-md mx-auto mb-6">ไม่มีการให้วัคซีนหรือการติดตามการรักษาที่กำลังจะถึงในอีก 7 วันข้างหน้า</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- แสดงประวัติทั้งหมด -->
+<div id="history-content" class="tab-content hidden">
+    <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-100 mb-6">
+        <h3 class="text-lg font-medium text-gray-800 mb-4">ประวัติการให้วัคซีนและการรักษาทั้งหมด</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            วันที่
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ไก่
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ประเภท
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            รายละเอียด
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                            ผู้ดำเนินการ
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            การจัดการ
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for event in history %}
+                        <tr class="history-row hover:bg-gray-50" data-chicken-id="{{ event.chicken_id }}" data-date="{{ event.date }}" data-type="{{ event.type }}">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ event.date }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                        {% if event.chicken.image %}
+                                            <img class="h-8 w-8 rounded-full" src="{{ event.chicken.image }}" alt="{{ event.chicken.name }}">
+                                        {% else %}
+                                            <span class="text-sm font-medium text-gray-500">{{ event.chicken.name[:1] }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="ml-3">
+                                        <div class="text-sm font-medium text-gray-900">{{ event.chicken.name }}</div>
+                                        <div class="text-xs text-gray-500">{{ event.chicken.breed }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {% if event.type == 'vaccination' %}bg-blue-100 text-blue-800
+                                    {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                    {% if event.type == 'vaccination' %}
+                                        วัคซีน
+                                    {% else %}
+                                        การรักษา
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-900">
+                                    {% if event.type == 'vaccination' %}
+                                        {{ event.vaccine_name }}
+                                    {% else %}
+                                        {{ event.symptoms|truncate(30) }}
+                                    {% endif %}
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    {% if event.type == 'vaccination' and event.next_due_date %}
+                                        ครั้งถัดไป: {{ event.next_due_date }}
+                                    {% elif event.type == 'treatment' %}
+                                        สถานะ: {{ event.status }}
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden lg:table-cell">
+                                {% if event.type == 'vaccination' %}
+                                    {{ event.vet_name or 'ไม่ระบุ' }}
+                                {% else %}
+                                    {{ event.vet_name or 'ไม่ระบุ' }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <div class="flex space-x-1">
+                                    {% if event.type == 'vaccination' %}
+                                        <a href="{{ url_for('view_vaccination', vaccination_id=event.id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                            <i data-feather="eye" class="h-4 w-4"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('view_treatment', treatment_id=event.id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                            <i data-feather="eye" class="h-4 w-4"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- แผนภูมิสถิติ -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-100">
+            <h3 class="text-base font-medium text-gray-800 mb-4">สถิติการให้วัคซีนตามเดือน</h3>
+            <div class="h-64">
+                <canvas id="vaccineChart"></canvas>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-100">
+            <h3 class="text-base font-medium text-gray-800 mb-4">ประเภทการรักษาโรค</h3>
+            <div class="h-64">
+                <canvas id="treatmentChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal ยืนยันการลบ -->
+<div id="delete-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div class="p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">ยืนยันการลบข้อมูล</h3>
+            <p class="text-gray-600 mb-6" id="delete-message">คุณต้องการลบข้อมูลนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            
+            <div class="flex justify-end space-x-3">
+                <button id="cancel-delete" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    ยกเลิก
+                </button>
+                <button id="confirm-delete" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    ลบข้อมูล
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // แท็บการแสดงผล
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        function switchTab(tabId) {
+            // ซ่อนทุกแท็บ
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // ล้างการเลือกทุกปุ่ม
+            tabButtons.forEach(btn => {
+                btn.classList.remove('border-primary', 'text-primary');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // แสดงแท็บที่เลือก
+            document.getElementById(tabId + '-content').classList.remove('hidden');
+            
+            // ไฮไลท์ปุ่มที่เลือก
+            document.getElementById('tab-' + tabId).classList.remove('border-transparent', 'text-gray-500');
+            document.getElementById('tab-' + tabId).classList.add('border-primary', 'text-primary');
+        }
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.id.replace('tab-', '');
+                switchTab(tabId);
+            });
+        });
+        
+        // การค้นหาและกรอง
+        const searchInput = document.getElementById('search-input');
+        const chickenFilter = document.getElementById('filter-chicken');
+        const dateFilter = document.getElementById('filter-date');
+        const clearFiltersButton = document.getElementById('clear-filters');
+        
+        function filterItems() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const chickenId = chickenFilter.value;
+            const dateValue = dateFilter.value;
+            
+            // กรองวัคซีน
+            const vaccineRows = document.querySelectorAll('.vaccine-row');
+            vaccineRows.forEach(row => {
+                const chickenName = row.querySelector('.text-sm.font-medium').textContent.toLowerCase();
+                const vaccineName = row.querySelector('.px-2.py-1.text-xs.rounded-full').textContent.toLowerCase();
+                const rowChickenId = row.dataset.chickenId;
+                const rowDate = row.dataset.date;
+                
+                const matchesSearch = chickenName.includes(searchTerm) || vaccineName.includes(searchTerm);
+                const matchesChicken = chickenId === 'all' || rowChickenId === chickenId;
+                const matchesDate = !dateValue || rowDate === dateValue;
+                
+                row.style.display = (matchesSearch && matchesChicken && matchesDate) ? '' : 'none';
+            });
+            
+            // กรองการรักษา
+            const treatmentRows = document.querySelectorAll('.treatment-row');
+            treatmentRows.forEach(row => {
+                const chickenName = row.querySelector('.text-sm.font-medium').textContent.toLowerCase();
+                const symptoms = row.querySelector('.text-sm.text-gray-900').textContent.toLowerCase();
+                const rowChickenId = row.dataset.chickenId;
+                const rowDate = row.dataset.date;
+                
+                const matchesSearch = chickenName.includes(searchTerm) || symptoms.includes(searchTerm);
+                const matchesChicken = chickenId === 'all' || rowChickenId === chickenId;
+                const matchesDate = !dateValue || rowDate === dateValue;
+                
+                row.style.display = (matchesSearch && matchesChicken && matchesDate) ? '' : 'none';
+            });
+            
+            // กรองประวัติ
+            const historyRows = document.querySelectorAll('.history-row');
+            historyRows.forEach(row => {
+                const chickenName = row.querySelector('.text-sm.font-medium').textContent.toLowerCase();
+                const rowChickenId = row.dataset.chickenId;
+                const rowDate = row.dataset.date;
+                
+                const matchesSearch = chickenName.includes(searchTerm);
+                const matchesChicken = chickenId === 'all' || rowChickenId === chickenId;
+                const matchesDate = !dateValue || rowDate === dateValue;
+                
+                row.style.display = (matchesSearch && matchesChicken && matchesDate) ? '' : 'none';
+            });
+        }
+        
+        // ล้างตัวกรอง
+        function clearFilters() {
+            searchInput.value = '';
+            chickenFilter.value = 'all';
+            dateFilter.value = '';
+            filterItems();
+        }
+        
+        if (searchInput) searchInput.addEventListener('input', filterItems);
+        if (chickenFilter) chickenFilter.addEventListener('change', filterItems);
+        if (dateFilter) dateFilter.addEventListener('change', filterItems);
+        if (clearFiltersButton) clearFiltersButton.addEventListener('click', clearFilters);
+        
+        // สร้างกราฟสำหรับประวัติ
+        const vaccineChartCtx = document.getElementById('vaccineChart');
+        if (vaccineChartCtx) {
+            // สมมติข้อมูล
+            const vaccineData = {
+                labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+                datasets: [
+                    {
+                        label: 'จำนวนการให้วัคซีน',
+                        data: [12, 19, 8, 15, 12, 3, 8, 9, 6, 5, 10, 14],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 2
+                    }
+                ]
+            };
+            
+            createBarChart('vaccineChart', vaccineData, {
+                title: 'สถิติการให้วัคซีนตามเดือน',
+                showLegend: false
+            });
+        }
+        
+        const treatmentChartCtx = document.getElementById('treatmentChart');
+        if (treatmentChartCtx) {
+            // สมมติข้อมูล
+            const treatmentData = {
+                labels: ['ท้องเสีย', 'ระบบหายใจ', 'พยาธิ', 'ผิวหนัง', 'อื่นๆ'],
+                datasets: [
+                    {
+                        data: [25, 20, 15, 10, 5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }
+                ]
+            };
+            
+            createPieChart('treatmentChart', treatmentData, {
+                title: 'ประเภทการรักษาโรค'
+            });
+        }
+        
+        // การลบและยืนยันการลบ
+        const deleteModal = document.getElementById('delete-modal');
+        const cancelDeleteButton = document.getElementById('cancel-delete');
+        const confirmDeleteButton = document.getElementById('confirm-delete');
+        const deleteMessage = document.getElementById('delete-message');
+        let currentDeleteId = null;
+        let currentDeleteType = null;
+        
+        // ฟังก์ชันยืนยันการลบ
+        window.confirmDelete = function(id, type) {
+            currentDeleteId = id;
+            currentDeleteType = type;
+            
+            if (type === 'vaccination') {
+                deleteMessage.textContent = 'คุณต้องการลบข้อมูลการให้วัคซีนนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้';
+            } else {
+                deleteMessage.textContent = 'คุณต้องการลบข้อมูลการรักษาโรคนี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้';
+            }
+            
+            deleteModal.classList.remove('hidden');
+        };
+        
+        // ปิด Modal
+        if (cancelDeleteButton) {
+            cancelDeleteButton.addEventListener('click', function() {
+                deleteModal.classList.add('hidden');
+                currentDeleteId = null;
+                currentDeleteType = null;
+            });
+            
+            // ปิดเมื่อคลิกข้างนอก
+            deleteModal.addEventListener('click', function(event) {
+                if (event.target === deleteModal) {
+                    deleteModal.classList.add('hidden');
+                    currentDeleteId = null;
+                    currentDeleteType = null;
+                }
+            });
+        }
+        
+        // ทำการลบเมื่อกดปุ่มยืนยัน
+        if (confirmDeleteButton) {
+            confirmDeleteButton.addEventListener('click', function() {
+                if (currentDeleteId && currentDeleteType) {
+                    // ส่ง request API เพื่อลบข้อมูล
+                    let url = '';
+                    
+                    if (currentDeleteType === 'vaccination') {
+                        url = `/api/vaccinations/${currentDeleteId}/delete`;
+                    } else {
+                        url = `/api/treatments/${currentDeleteId}/delete`;
+                    }
+                    
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // โหลดหน้าใหม่เพื่อแสดงข้อมูลล่าสุด
+                            location.reload();
+                        } else {
+                            alert('เกิดข้อผิดพลาด: ' + (data.error || 'ไม่สามารถลบข้อมูลได้'));
+                        }
+                        
+                        deleteModal.classList.add('hidden');
+                        currentDeleteId = null;
+                        currentDeleteType = null;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('เกิดข้อผิดพลาดในการลบข้อมูล');
+                        deleteModal.classList.add('hidden');
+                        currentDeleteId = null;
+                        currentDeleteType = null;
+                    });
+                }
+            });
+        }
+        
+        // ฟังก์ชันทำเครื่องหมายว่าหายแล้ว
+        window.markAsRecovered = function(id) {
+            fetch(`/api/treatments/${id}/recover`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // โหลดหน้าใหม่เพื่อแสดงข้อมูลล่าสุด
+                    location.reload();
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + (data.error || 'ไม่สามารถอัปเดตสถานะได้'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาดในการอัปเดตสถานะ');
+            });
+        };
+    });
+</script>
+{% endblock %} 

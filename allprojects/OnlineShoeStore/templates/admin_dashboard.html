@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">แดชบอร์ดผู้ดูแลระบบ</h1>
+
+    <!-- การ์ดแสดงภาพรวม -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-2">จำนวนสินค้าทั้งหมด</h3>
+            <p class="text-3xl font-bold">{{ total_shoes }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-2">จำนวนออเดอร์</h3>
+            <p class="text-3xl font-bold">{{ total_orders }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold mb-2">จำนวนผู้ใช้</h3>
+            <p class="text-3xl font-bold">{{ total_users }}</p>
+        </div>
+    </div>
+
+    <!-- เมนูการจัดการ -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- จัดการสินค้า -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6">จัดการสินค้า</h2>
+            <div class="space-y-4">
+                <a href="{{ url_for('admin_add_shoe') }}" class="block w-full text-center bg-black text-white py-3 rounded-lg hover:bg-gray-800">เพิ่มสินค้าใหม่</a>
+                <a href="{{ url_for('admin_shoes') }}" class="block w-full text-center bg-gray-100 text-black py-3 rounded-lg hover:bg-gray-200">ดูรายการสินค้าทั้งหมด</a>
+            </div>
+        </div>
+
+        <!-- จัดการออเดอร์ -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6">จัดการออเดอร์</h2>
+            <div class="space-y-4">
+                <a href="{{ url_for('admin_orders') }}" class="block w-full text-center bg-black text-white py-3 rounded-lg hover:bg-gray-800">ดูออเดอร์ทั้งหมด</a>
+                <a href="{{ url_for('admin_pending_orders') }}" class="block w-full text-center bg-gray-100 text-black py-3 rounded-lg hover:bg-gray-200">ออเดอร์ที่รอดำเนินการ</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ตารางสินค้าล่าสุด -->
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold mb-6">สินค้าล่าสุด</h2>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <table class="min-w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">รูปภาพ</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ชื่อสินค้า</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ราคา</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">สต็อก</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">การจัดการ</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for shoe in latest_shoes %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img src="{{ shoe.image_url }}" alt="{{ shoe.name }}" class="h-12 w-12 object-cover rounded">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ shoe.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ shoe.price }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="{% if shoe.sizes|sum(attribute='stock') > 0 %}text-green-600{% else %}text-red-600{% endif %} font-medium">
+                                {{ shoe.sizes|sum(attribute='stock') }} คู่
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{{ url_for('admin_edit_shoe', id=shoe.id) }}" class="text-indigo-600 hover:text-indigo-900 mr-4">แก้ไข</a>
+                            <a href="{{ url_for('admin_delete_shoe', id=shoe.id) }}" class="text-red-600 hover:text-red-900" onclick="return confirm('คุณแน่ใจหรือไม่ที่จะลบสินค้านี้?')">ลบ</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

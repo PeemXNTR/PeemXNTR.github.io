@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex items-center space-x-2 mb-8">
+        <a href="{{ url_for('cart') }}" class="text-gray-500 hover:text-black">
+            <i class="fas fa-arrow-left"></i>
+            กลับไปที่ตะกร้า
+        </a>
+    </div>
+
+    {% if cart_items %}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- ข้อมูลการจัดส่งและการชำระเงิน -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- ข้อมูลการจัดส่ง -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-6">ข้อมูลการจัดส่ง</h2>
+                <form method="POST" id="checkoutForm" class="space-y-6">
+                    <div>
+                        <label for="shipping_address" class="block text-sm font-medium text-gray-700 mb-2">
+                            ที่อยู่จัดส่ง <span class="text-red-500">*</span>
+                        </label>
+                        <textarea 
+                            id="shipping_address" 
+                            name="shipping_address" 
+                            rows="4" 
+                            required
+                            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-colors"
+                            placeholder="บ้านเลขที่, ถนน, ตำบล/แขวง, อำเภอ/เขต, จังหวัด, รหัสไปรษณีย์"></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- วิธีการชำระเงิน -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-xl font-bold mb-6">วิธีการชำระเงิน</h2>
+                <div class="space-y-4">
+                    <label class="block p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-black transition-colors">
+                        <div class="flex items-center space-x-3">
+                            <input type="radio" name="payment_method" value="credit_card" form="checkoutForm" required
+                                   class="text-black focus:ring-black">
+                            <div>
+                                <span class="font-medium">บัตรเครดิต/เดบิต</span>
+                                <p class="text-sm text-gray-500">Visa, Mastercard, JCB</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-black transition-colors">
+                        <div class="flex items-center space-x-3">
+                            <input type="radio" name="payment_method" value="bank_transfer" form="checkoutForm" required
+                                   class="text-black focus:ring-black">
+                            <div>
+                                <span class="font-medium">โอนเงินผ่านธนาคาร</span>
+                                <p class="text-sm text-gray-500">ธนาคารกรุงเทพ, กสิกรไทย, ไทยพาณิชย์, กรุงไทย</p>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="block p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-black transition-colors">
+                        <div class="flex items-center space-x-3">
+                            <input type="radio" name="payment_method" value="promptpay" form="checkoutForm" required
+                                   class="text-black focus:ring-black">
+                            <div>
+                                <span class="font-medium">พร้อมเพย์</span>
+                                <p class="text-sm text-gray-500">ชำระเงินด้วย QR Code</p>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- สรุปคำสั่งซื้อ -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-lg p-6 sticky top-6">
+                <h2 class="text-xl font-bold mb-6">สรุปคำสั่งซื้อ</h2>
+                
+                <!-- รายการสินค้า -->
+                <div class="space-y-4 mb-6">
+                    {% for item in cart_items %}
+                    <div class="flex items-start space-x-4">
+                        <img src="{{ item.shoe.image_url }}" 
+                             alt="{{ item.shoe.name }}"
+                             class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium">{{ item.shoe.name }}</h3>
+                            <p class="text-sm text-gray-500">ไซส์: {{ item.size }}</p>
+                            <p class="text-sm text-gray-500">จำนวน: {{ item.quantity }}</p>
+                            <p class="font-medium mt-1">฿{{ "%.2f"|format(item.subtotal) }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- ราคารวม -->
+                <div class="space-y-3 py-4 border-t border-gray-200">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">ราคาสินค้า</span>
+                        <span>฿{{ "%.2f"|format(total) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">ค่าจัดส่ง</span>
+                        <span class="text-green-600">ฟรี</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold pt-3 border-t border-gray-200">
+                        <span>ยอดรวมทั้งหมด</span>
+                        <span>฿{{ "%.2f"|format(total) }}</span>
+                    </div>
+                </div>
+
+                <!-- ปุ่มยืนยันการสั่งซื้อ -->
+                <button type="submit" form="checkoutForm"
+                        class="w-full mt-6 bg-black text-white py-4 px-6 rounded-full font-medium hover:bg-gray-800 transition-colors">
+                    ยืนยันการสั่งซื้อ
+                </button>
+
+                <!-- เพิ่ม input hidden เพื่อระบุการดำเนินการหลังการสั่งซื้อ -->
+                <input type="hidden" name="redirect_to" value="cart" form="checkoutForm">
+
+                <p class="text-sm text-gray-500 text-center mt-4">
+                    การกดปุ่มยืนยันการสั่งซื้อ หมายถึงคุณยอมรับ
+                    <a href="#" class="underline">เงื่อนไขการใช้บริการ</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-12">
+        <h2 class="text-2xl font-bold mb-4">ไม่มีสินค้าในตะกร้า</h2>
+        <p class="text-gray-600 mb-6">กรุณาเพิ่มสินค้าในตะกร้าก่อนทำการสั่งซื้อ</p>
+        <a href="{{ url_for('index') }}" 
+           class="inline-block bg-black text-white py-3 px-6 rounded-full font-medium hover:bg-gray-800 transition-colors">
+            กลับไปเลือกซื้อสินค้า
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

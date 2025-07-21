@@ -1,0 +1,457 @@
+{% extends 'base.html' %}
+
+{% block title %}จัดการออเดอร์ - ระบบจัดการฟาร์มไก่{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">จัดการออเดอร์</h1>
+        <p class="text-gray-600 mt-1">บันทึกและติดตามออเดอร์การขายไข่และผลิตภัณฑ์</p>
+    </div>
+    <div>
+        <a href="{{ url_for('create_order') }}" class="bg-primary hover:bg-accent text-white py-2 px-4 rounded-lg inline-flex items-center text-sm">
+            <i data-feather="plus" class="h-4 w-4 mr-2"></i>
+            <span>สร้างออเดอร์ใหม่</span>
+        </a>
+    </div>
+</div>
+
+<!-- ส่วนค้นหาและกรอง -->
+<div class="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-100">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i data-feather="search" class="h-4 w-4 text-gray-400"></i>
+            </div>
+            <input type="text" id="search-order" placeholder="ค้นหารหัสออเดอร์ หรือชื่อลูกค้า..." 
+                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <div>
+            <select id="filter-status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="all">ทุกสถานะ</option>
+                <option value="pending">รอดำเนินการ</option>
+                <option value="processing">กำลังดำเนินการ</option>
+                <option value="shipped">จัดส่งแล้ว</option>
+                <option value="delivered">จัดส่งสำเร็จ</option>
+                <option value="canceled">ยกเลิก</option>
+            </select>
+        </div>
+        <div>
+            <select id="filter-customer" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="all">ทุกลูกค้า</option>
+                {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-feather="calendar" class="h-4 w-4 text-gray-400"></i>
+                </div>
+                <input type="date" id="filter-date" 
+                    class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- แสดงรายการออเดอร์ -->
+{% if orders %}
+    <div class="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        รหัสออเดอร์
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        ลูกค้า
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                        วันที่สั่ง
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                        รายการ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        มูลค่ารวม
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        สถานะ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        การจัดการ
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for order in orders %}
+                <tr class="order-row" data-id="{{ order.id }}" data-customer="{{ order.customer.name }}" data-customer-id="{{ order.customer.id }}" data-status="{{ order.status }}" data-date="{{ order.order_date }}">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ order.order_number }}</div>
+                        <div class="text-xs text-gray-500 md:hidden">{{ order.order_date }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
+                                {% if order.customer.profile_image %}
+                                    <img class="h-8 w-8 rounded-full" src="{{ order.customer.profile_image }}" alt="{{ order.customer.name }}">
+                                {% else %}
+                                    <span class="text-sm font-medium text-gray-500">{{ order.customer.name[:1] }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm font-medium text-gray-900">{{ order.customer.name }}</div>
+                                <div class="text-xs text-gray-500">{{ order.customer.type_display }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden lg:table-cell">
+                        {{ order.order_date }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden md:table-cell">
+                        <span class="text-gray-900 font-medium">{{ order.items|length }}</span> รายการ
+                        <div class="text-xs text-gray-500">
+                            ไข่ {{ order.total_eggs }} ฟอง
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ "{:,.2f}".format(order.total_amount) }} บาท</div>
+                        {% if order.payment_status == 'paid' %}
+                            <span class="text-xs text-green-600">ชำระแล้ว</span>
+                        {% elif order.payment_status == 'partial' %}
+                            <span class="text-xs text-yellow-600">ชำระบางส่วน</span>
+                        {% else %}
+                            <span class="text-xs text-red-600">ยังไม่ชำระ</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800
+                            {% elif order.status == 'processing' %}bg-blue-100 text-blue-800
+                            {% elif order.status == 'shipped' %}bg-purple-100 text-purple-800
+                            {% elif order.status == 'delivered' %}bg-green-100 text-green-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {% if order.status == 'pending' %}รอดำเนินการ
+                            {% elif order.status == 'processing' %}กำลังดำเนินการ
+                            {% elif order.status == 'shipped' %}จัดส่งแล้ว
+                            {% elif order.status == 'delivered' %}จัดส่งสำเร็จ
+                            {% else %}ยกเลิก{% endif %}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        <div class="flex space-x-1">
+                            <a href="{{ url_for('view_order', order_id=order.id) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                <i data-feather="eye" class="h-4 w-4"></i>
+                            </a>
+                            {% if order.status != 'canceled' and order.status != 'delivered' %}
+                                <a href="{{ url_for('edit_order', order_id=order.id) }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 rounded-md p-1" title="แก้ไข">
+                                    <i data-feather="edit" class="h-4 w-4"></i>
+                                </a>
+                            {% endif %}
+                            {% if order.status == 'pending' %}
+                                <button data-id="{{ order.id }}" data-number="{{ order.order_number }}" class="cancel-order text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 rounded-md p-1" title="ยกเลิก">
+                                    <i data-feather="x-circle" class="h-4 w-4"></i>
+                                </button>
+                            {% endif %}
+                            <a href="{{ url_for('print_invoice', order_id=order.id) }}" target="_blank" class="text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-md p-1" title="พิมพ์ใบเสร็จ">
+                                <i data-feather="printer" class="h-4 w-4"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- สรุปข้อมูล -->
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                <i data-feather="dollar-sign" class="h-5 w-5 mr-2 text-primary"></i>
+                ยอดขายรวม
+            </h3>
+            <p class="text-2xl font-bold text-gray-900">{{ "{:,.2f}".format(total_sales) }} บาท</p>
+            <div class="text-sm text-gray-500 mt-2">
+                จากทั้งหมด {{ orders|length }} ออเดอร์
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                <i data-feather="package" class="h-5 w-5 mr-2 text-primary"></i>
+                สถานะออเดอร์
+            </h3>
+            <div class="mt-3 space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">รอดำเนินการ</span>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">{{ status_counts.pending or 0 }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">กำลังดำเนินการ</span>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">{{ status_counts.processing or 0 }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">จัดส่งแล้ว</span>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">{{ status_counts.shipped or 0 }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">จัดส่งสำเร็จ</span>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">{{ status_counts.delivered or 0 }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">ยกเลิก</span>
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">{{ status_counts.canceled or 0 }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                <i data-feather="credit-card" class="h-5 w-5 mr-2 text-primary"></i>
+                สถานะการชำระเงิน
+            </h3>
+            <div class="flex items-center mt-4">
+                <div class="flex-1">
+                    <div class="h-2 rounded-full bg-gray-200 overflow-hidden">
+                        <div class="h-full bg-primary" style="width: {{ paid_percentage }}%"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <span class="text-sm font-medium text-gray-900">{{ paid_percentage }}%</span>
+                </div>
+            </div>
+            <div class="mt-3 space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">ชำระแล้ว</span>
+                    <span class="text-sm font-medium text-gray-900">{{ "{:,.2f}".format(payment_summary.paid) }} บาท</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-600">ยังไม่ชำระ</span>
+                    <span class="text-sm font-medium text-gray-900">{{ "{:,.2f}".format(payment_summary.unpaid) }} บาท</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-between items-center">
+        <div class="text-sm text-gray-700">
+            แสดง <span class="font-medium">1</span> ถึง <span class="font-medium">10</span> จากทั้งหมด <span class="font-medium">{{ orders|length }}</span> รายการ
+        </div>
+        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Previous</span>
+                <i data-feather="chevron-left" class="h-5 w-5"></i>
+            </a>
+            <a href="#" aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                1
+            </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                2
+            </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                3
+            </a>
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Next</span>
+                <i data-feather="chevron-right" class="h-5 w-5"></i>
+            </a>
+        </nav>
+    </div>
+{% else %}
+    <div class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+        <div class="flex flex-col items-center justify-center">
+            <i data-feather="shopping-bag" class="h-16 w-16 text-gray-400 mb-4"></i>
+            <h3 class="text-xl font-medium text-gray-900 mb-2">ยังไม่มีออเดอร์</h3>
+            <p class="text-gray-600 max-w-md mx-auto mb-6">คุณยังไม่มีออเดอร์ในระบบ สร้างออเดอร์ใหม่เพื่อเริ่มขายไข่และผลิตภัณฑ์</p>
+            <a href="{{ url_for('create_order') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-accent">
+                <i data-feather="plus" class="h-4 w-4 mr-2"></i>
+                สร้างออเดอร์ใหม่
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Modal ยืนยันการยกเลิกออเดอร์ -->
+<div id="cancel-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div class="p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">ยืนยันการยกเลิกออเดอร์</h3>
+            <p class="text-gray-600 mb-6">คุณต้องการยกเลิกออเดอร์ "<span id="cancel-order-number"></span>" ใช่หรือไม่?</p>
+            
+            <div class="mb-4">
+                <label for="cancel-reason" class="block text-sm font-medium text-gray-700 mb-1">เหตุผลในการยกเลิก</label>
+                <textarea id="cancel-reason" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"></textarea>
+            </div>
+            
+            <div class="flex justify-end space-x-3">
+                <button id="close-cancel-modal" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    ยกเลิก
+                </button>
+                <button id="confirm-cancel" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                    ยืนยันการยกเลิก
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // การค้นหาและกรอง
+        const searchInput = document.getElementById('search-order');
+        const statusFilter = document.getElementById('filter-status');
+        const customerFilter = document.getElementById('filter-customer');
+        const dateFilter = document.getElementById('filter-date');
+        const orderRows = document.querySelectorAll('.order-row');
+        
+        function filterOrders() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const statusValue = statusFilter.value;
+            const customerValue = customerFilter.value;
+            const dateValue = dateFilter.value;
+            
+            orderRows.forEach(row => {
+                const id = row.dataset.id.toLowerCase();
+                const customer = row.dataset.customer.toLowerCase();
+                const status = row.dataset.status;
+                const customerId = row.dataset.customerId;
+                const date = row.dataset.date;
+                
+                const matchesSearch = id.includes(searchTerm) || customer.includes(searchTerm);
+                const matchesStatus = statusValue === 'all' || status === statusValue;
+                const matchesCustomer = customerValue === 'all' || customerId === customerValue;
+                const matchesDate = !dateValue || date === dateValue;
+                
+                row.style.display = (matchesSearch && matchesStatus && matchesCustomer && matchesDate) ? '' : 'none';
+            });
+        }
+        
+        if (searchInput) searchInput.addEventListener('input', filterOrders);
+        if (statusFilter) statusFilter.addEventListener('change', filterOrders);
+        if (customerFilter) customerFilter.addEventListener('change', filterOrders);
+        if (dateFilter) dateFilter.addEventListener('change', filterOrders);
+        
+        // ยกเลิกออเดอร์
+        const cancelButtons = document.querySelectorAll('.cancel-order');
+        const cancelModal = document.getElementById('cancel-modal');
+        const closeCancelModalButton = document.getElementById('close-cancel-modal');
+        const confirmCancelButton = document.getElementById('confirm-cancel');
+        const cancelOrderNumber = document.getElementById('cancel-order-number');
+        const cancelReason = document.getElementById('cancel-reason');
+        let orderIdToCancel = null;
+        
+        // เปิด Modal ยืนยันการยกเลิก
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                orderIdToCancel = this.dataset.id;
+                cancelOrderNumber.textContent = this.dataset.number;
+                cancelReason.value = '';
+                cancelModal.classList.remove('hidden');
+            });
+        });
+        
+        // ปิด Modal
+        if (closeCancelModalButton) {
+            closeCancelModalButton.addEventListener('click', function() {
+                cancelModal.classList.add('hidden');
+                orderIdToCancel = null;
+            });
+            
+            // ปิดเมื่อคลิกข้างนอก
+            cancelModal.addEventListener('click', function(event) {
+                if (event.target === cancelModal) {
+                    cancelModal.classList.add('hidden');
+                    orderIdToCancel = null;
+                }
+            });
+        }
+        
+        // ดำเนินการยกเลิกออเดอร์
+        if (confirmCancelButton) {
+            confirmCancelButton.addEventListener('click', function() {
+                if (orderIdToCancel) {
+                    const reason = cancelReason.value;
+                    
+                    // ส่ง request ไปยัง API เพื่อยกเลิกออเดอร์
+                    fetch(`/api/orders/${orderIdToCancel}/cancel`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({ reason: reason })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // อัปเดตสถานะออเดอร์ในตาราง
+                            const rowToUpdate = document.querySelector(`.order-row[data-id="${orderIdToCancel}"]`);
+                            if (rowToUpdate) {
+                                const statusCell = rowToUpdate.querySelector('td:nth-child(6)');
+                                if (statusCell) {
+                                    statusCell.innerHTML = `
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            ยกเลิก
+                                        </span>
+                                    `;
+                                }
+                                
+                                // อัปเดตปุ่มจัดการ
+                                const actionCell = rowToUpdate.querySelector('td:nth-child(7)');
+                                if (actionCell) {
+                                    actionCell.innerHTML = `
+                                        <div class="flex space-x-1">
+                                            <a href="/orders/${orderIdToCancel}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 rounded-md p-1" title="ดูรายละเอียด">
+                                                <i data-feather="eye" class="h-4 w-4"></i>
+                                            </a>
+                                            <a href="/print_invoice/${orderIdToCancel}" target="_blank" class="text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-md p-1" title="พิมพ์ใบเสร็จ">
+                                                <i data-feather="printer" class="h-4 w-4"></i>
+                                            </a>
+                                        </div>
+                                    `;
+                                    feather.replace();
+                                }
+                                
+                                // อัปเดต dataset
+                                rowToUpdate.dataset.status = 'canceled';
+                            }
+                            
+                            // อัปเดตจำนวนสถานะ
+                            const pendingCount = document.querySelector('.space-y-2 div:nth-child(1) .bg-yellow-100');
+                            const canceledCount = document.querySelector('.space-y-2 div:nth-child(5) .bg-red-100');
+                            
+                            if (pendingCount && canceledCount) {
+                                const currentPending = parseInt(pendingCount.textContent);
+                                const currentCanceled = parseInt(canceledCount.textContent);
+                                
+                                if (!isNaN(currentPending) && !isNaN(currentCanceled)) {
+                                    pendingCount.textContent = currentPending - 1;
+                                    canceledCount.textContent = currentCanceled + 1;
+                                }
+                            }
+                        } else {
+                            alert('เกิดข้อผิดพลาดในการยกเลิกออเดอร์: ' + (data.error || 'ไม่สามารถยกเลิกได้'));
+                        }
+                        
+                        // ปิด Modal
+                        cancelModal.classList.add('hidden');
+                        orderIdToCancel = null;
+                    })
+                    .catch(error => {
+                        console.error('Error canceling order:', error);
+                        alert('เกิดข้อผิดพลาดในการยกเลิกออเดอร์');
+                        cancelModal.classList.add('hidden');
+                        orderIdToCancel = null;
+                    });
+                }
+            });
+        }
+    });
+</script>
+{% endblock %} 

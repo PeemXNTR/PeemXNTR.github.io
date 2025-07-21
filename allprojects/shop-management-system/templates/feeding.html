@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}การให้อาหาร - ระบบจัดการฟาร์มไก่{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-primary">ข้อมูลการให้อาหาร</h2>
+        <a href="{{ url_for('add_feeding') }}" class="bg-primary hover:bg-accent text-white font-bold py-2 px-4 rounded inline-flex items-center transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>เพิ่มข้อมูลการให้อาหาร</span>
+        </a>
+    </div>
+
+    {% if feedings %}
+        <!-- สรุปค่าใช้จ่าย -->
+        <div class="mb-6 grid md:grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg shadow border-l-4 border-green-500">
+                <p class="text-gray-600 mb-1 font-medium">ค่าใช้จ่ายรวมทั้งหมด</p>
+                <p class="text-3xl font-bold text-green-600">
+                    {{ "{:,.2f}".format(feedings|sum(attribute='cost')) }} บาท
+                </p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg shadow border-l-4 border-blue-500">
+                <p class="text-gray-600 mb-1 font-medium">ปริมาณอาหารที่ใช้ทั้งหมด</p>
+                <p class="text-3xl font-bold text-blue-600">
+                    {{ "{:,.2f}".format(feedings|sum(attribute='amount')) }} กิโลกรัม
+                </p>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-100 text-gray-800">
+                    <tr>
+                        <th class="py-3 px-4 text-left">วันที่</th>
+                        <th class="py-3 px-4 text-left">ชนิดอาหาร</th>
+                        <th class="py-3 px-4 text-left">ปริมาณ (กก.)</th>
+                        <th class="py-3 px-4 text-left">ต้นทุน (บาท)</th>
+                        <th class="py-3 px-4 text-left">หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for feeding in feedings %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-3 px-4">{{ feeding.date.strftime('%d/%m/%Y') }}</td>
+                        <td class="py-3 px-4">{{ feeding.food_type }}</td>
+                        <td class="py-3 px-4">{{ "%.2f"|format(feeding.amount) }}</td>
+                        <td class="py-3 px-4">{{ "%.2f"|format(feeding.cost) }}</td>
+                        <td class="py-3 px-4">{{ feeding.notes or '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-4" role="alert">
+            <p>ยังไม่มีข้อมูลการให้อาหารในระบบ กรุณาเพิ่มข้อมูลการให้อาหาร</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 
