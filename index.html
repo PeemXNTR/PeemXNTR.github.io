@@ -1,164 +1,20 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ชวนากร นนทฤทธิ์ | IT Support & Programmer</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/s-removebg-preview.png">
-    <link rel="manifest" href="site.webmanifest">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- ส่วนหัว -->
-    <header>
-        <nav>
-            <div class="nav-content">
-                <div class="logo">
-                    <img src="images/s-removebg-preview.png" alt="CWNK Logo" class="nav-logo">
-                    <a href="#home">แฟ้มสะสม<span>ผลงาน</span></a>
-                </div>
-                <button type="button" class="menu-toggle" id="menuToggle" aria-label="เปิดหรือปิดเมนู" aria-expanded="false" aria-controls="navigation">
-                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-                </button>
-                <ul class="nav-links" id="navigation">
-                    <li><a href="#home" data-en="Home" data-th="หน้าแรก">หน้าแรก</a></li>
-                    <li><a href="#about" data-en="About" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</a></li>
-                    <li><a href="#skills" data-en="Skills" data-th="ทักษะ">ทักษะ</a></li>
-                    <li><a href="#projects" data-en="Projects" data-th="ผลงาน">ผลงาน</a></li>
-                    <li><a href="#contact" data-en="Contact" data-th="ติดต่อ">ติดต่อ</a></li>
-                </ul>
-                <div class="nav-controls">
-                    <button id="langToggle" class="control-button" aria-label="Toggle Language">
-                        <i class="fas fa-language"></i>
-                    </button>
-                    <button id="themeToggle" class="control-button" aria-label="Toggle Theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- ส่วนหน้าแรก -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 data-en="Hello" data-th="สวัสดีครับ">สวัสดีครับ</h1>
-                <h2 data-en="I’m Peem, Chawanakorn" data-th="ผม ภีม — ชวนากร นนทฤทธิ์">ผม ภีม — ชวนากร นนทฤทธิ์</h2>
-                
-                <p class="hero-role">IT Support / Programmer / System Administrator</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="cta-button primary" data-en="Contact Me" data-th="ติดต่อผม">ติดต่อผม</a>
-                    <a href="#projects" class="cta-button secondary" data-en="View Projects" data-th="ดูผลงาน">ดูผลงาน</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="images/peem-graduation.jpg" alt="ภีม ชวนากร ในชุดครุย" class="profile-image" width="1111" height="1416" fetchpriority="high">
-            </div>
-        </div>
-    </section>
-
-    <!-- ส่วนเกี่ยวกับฉัน -->
-    <section id="about" class="about">
-        <h2 data-en="About Me" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</h2>
-        <div class="about-content">
-            <div class="about-image">
-                <img src="images/peem-suit.png" alt="ภีม ชวนากร ในชุดสูทสีน้ำเงิน" class="about-profile-image" width="1024" height="1536" loading="lazy">
-                
-            </div>
-            <div class="about-text">
-                <div class="about-header">
-                    <h3 data-en="Hi, I'm Peem" data-th="สวัสดีครับ ผมชื่อภีม">สวัสดีครับ ผมชื่อภีม</h3>
-                    <span class="highlight-text" data-en="IT Support & System Development" data-th="ดูแลระบบไอทีและพัฒนาระบบ">ดูแลระบบไอทีและพัฒนาระบบ</span>
-                </div>
-                <div class="personal-info">
-                    <div class="info-item">
-                        <i class="fas fa-user"></i>
-                        <span class="info-label" data-en="Full Name" data-th="ชื่อ - สกุล">ชื่อ - สกุล:</span>
-                        <span class="info-value">ชวนากร นนทฤทธิ์</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-smile"></i>
-                        <span class="info-label" data-en="Nickname" data-th="ชื่อเล่น">ชื่อเล่น:</span>
-                        <span class="info-value">ภีม</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span class="info-label" data-en="Date of Birth" data-th="วันเกิด">วันเกิด:</span>
-                        <span class="info-value">3 กุมภาพันธ์ 2545</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-flag"></i>
-                        <span class="info-label" data-en="Nationality" data-th="สัญชาติ">สัญชาติ:</span>
-                        <span class="info-value">ไทย</span>
-                    </div>
-                </div>
-                <div class="about-description">
-                    <p data-th="สนใจงาน IT Support, Network และการพัฒนาระบบ ชอบแก้ไขปัญหาคอมพิวเตอร์ ติดตั้งระบบ และดูแลอุปกรณ์เครือข่าย" data-en="Interested in IT support, networking and system development, with hands-on computer troubleshooting, system installation and network equipment support.">สนใจงาน IT Support, Network และการพัฒนาระบบ ชอบแก้ไขปัญหาคอมพิวเตอร์ ติดตั้งระบบ และดูแลอุปกรณ์เครือข่าย</p>
-                    <p data-th="เรียนรู้สิ่งใหม่ได้รวดเร็ว พร้อมพัฒนาทักษะด้านเทคโนโลยีอย่างต่อเนื่อง เพื่อสร้างผลงานและเติบโตในสายงานไอทีอย่างมืออาชีพ" data-en="A quick learner, committed to developing technical skills and growing professionally in IT.">เรียนรู้สิ่งใหม่ได้รวดเร็ว พร้อมพัฒนาทักษะด้านเทคโนโลยีอย่างต่อเนื่อง เพื่อสร้างผลงานและเติบโตในสายงานไอทีอย่างมืออาชีพ</p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-tools"></i>
-                        <h4 data-en="Hardware" data-th="ฮาร์ดแวร์">ฮาร์ดแวร์</h4>
-                        <div class="progress-bar"><div class="progress" style="width: 95%"></div></div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-desktop"></i>
-                        <h4 data-en="PC Building" data-th="ประกอบคอมพิวเตอร์">ประกอบคอมพิวเตอร์</h4>
-                        <div class="progress-bar"><div class="progress" style="width: 90%"></div></div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-cog"></i>
-                        <h4 data-en="System Config" data-th="ตั้งค่าระบบ">ตั้งค่าระบบ</h4>
-                        <div class="progress-bar"><div class="progress" style="width: 85%"></div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="resume-section">
-        <h2 data-th="การศึกษาและประสบการณ์" data-en="Education & Experience">การศึกษาและประสบการณ์</h2>
-        <div class="resume-grid">
-            <article class="resume-card"><span class="resume-label">EDUCATION</span><h3>ปริญญาตรี วิทยาการคอมพิวเตอร์</h3><p>มหาวิทยาลัยราชภัฏสุราษฎร์ธานี</p><p>คณะวิทยาศาสตร์และเทคโนโลยี</p></article>
-            <div class="experience-list">
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ภีม — ชวนากร นนทฤทธิ์ | IT Portfolio</title><meta name="description" content="รู้จักภีม ชวนากร นนทฤทธิ์ — งาน IT Support, Network และการพัฒนาระบบ พร้อมประสบการณ์และผลงาน"><meta name="theme-color" content="#f7f8fa"><link rel="icon" href="images/s-removebg-preview.png"><link rel="stylesheet" href="fonts/fonts.css"><link rel="stylesheet" href="styles.css"></head><body>
+<a class="skip" href="#main">ข้ามไปเนื้อหา</a><header><nav class="nav-content"><a class="brand" href="#home">PEEM<small>IT PORTFOLIO</small></a><button id="langToggle" class="language-button" type="button" aria-label="Switch to English">EN</button><button id="menuToggle" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="navigation">เมนู <span>☰</span></button><div class="nav-links" id="navigation"><a href="#about">เกี่ยวกับผม</a><a href="#experience">ประสบการณ์</a><a href="#projects">ผลงาน</a><a class="nav-contact" href="#contact">พูดคุยกัน ↗</a></div></nav></header>
+<main id="main"><section class="hero" id="home"><div class="hero-text"><span class="eyebrow"><i></i> IT SUPPORT · NETWORK · DEVELOPMENT</span><p class="hello">สวัสดีครับ ผมภีม</p><h1>ชวนากร<br><span>นนทฤทธิ์</span></h1><p class="hero-description">ดูแลระบบ แก้ไขปัญหา<br>และพัฒนาเทคโนโลยีให้ใช้งานได้จริง</p><div class="hero-buttons"><a class="button primary" href="#projects">ดูผลงานของผม <span>↗</span></a><a class="button secondary" href="#contact">ติดต่อผม <span>→</span></a></div></div><div class="portrait-wrap"><div class="portrait-label">A LITTLE ABOUT ME</div><img class="profile-image" src="images/peem-graduation.jpg" width="1111" height="1416" alt="ภีม ชวนากร ในชุดครุย" fetchpriority="high"><div class="portrait-caption"><div><strong>PEEM / ชวนากร</strong><span>Computer Science Graduate</span></div><span class="caption-mark">↗</span></div></div></section>
+<div class="specialties"><span>IT Support</span><b>✳</b><span>Network & Systems</span><b>✳</b><span>Web Development</span></div>
+<section id="about" class="about"><div class="about-photo"><img src="images/peem-suit.png" width="1024" height="1536" loading="lazy" alt="ภีมในชุดสูทสีน้ำเงิน"><span>THE PERSON BEHIND THE WORK</span></div><div class="about-copy"><span class="eyebrow">01 / ABOUT ME</span><h2>ชอบแก้ปัญหา<br>และเรียนรู้สิ่งใหม่อยู่เสมอ</h2><p>ผมสนใจงาน IT Support, Network และการพัฒนาระบบ ชอบการลงมือแก้ไขปัญหาคอมพิวเตอร์ ติดตั้งระบบ และดูแลอุปกรณ์เครือข่ายให้พร้อมใช้งาน</p><p>พร้อมพัฒนาทักษะด้านเทคโนโลยีอย่างต่อเนื่อง เพื่อสร้างผลงานที่เป็นประโยชน์ และเติบโตในสายงานไอทีอย่างมืออาชีพ</p><div class="education"><span>EDUCATION</span><h3>ปริญญาตรี · วิทยาการคอมพิวเตอร์</h3><p>มหาวิทยาลัยราชภัฏสุราษฎร์ธานี<br>คณะวิทยาศาสตร์และเทคโนโลยี</p></div></div></section>
+<section id="experience" class="experience"><div class="section-heading"><div><span class="eyebrow">02 / EXPERIENCE</span><h2>ประสบการณ์ทำงาน</h2></div><p>ทักษะที่เติบโตจากการลงมือทำ</p></div><div class="experience-list">
                 <article class="resume-card"><span class="resume-label">2026</span><h3>ดูแลอุปกรณ์ภายในองค์กร · ทีมช่าง</h3><p class="company">MASTERINK & PRINTING (THAILAND) COMPANY LIMITED</p><ul><li>ดูแลและติดตั้งคอมพิวเตอร์และอุปกรณ์ต่าง ๆ ภายในบริษัท</li><li>ตรวจสอบระบบเครือข่ายและอุปกรณ์สำนักงาน เครื่องซีล เครื่องเลเซอร์ตรายาง และเครื่องแกะสลัก</li><li>ออกซ่อมและส่งมอบอุปกรณ์ พร้อมสอนลูกค้าใช้งานโปรแกรมและดูแลบัญชี LINE Official</li></ul></article>
                 <article class="resume-card"><span class="resume-label">2024</span><h3>Admin One Delivery</h3><p class="company">Siam IT Networking Thailand Co., Ltd.</p><ul><li>ดูแลข้อมูลและประสานงานระบบหลังบ้าน</li><li>ตรวจสอบข้อมูลลูกค้าและเอกสาร</li><li>สนับสนุนการทำงานของทีมและแก้ไขปัญหาเบื้องต้น</li></ul></article>
                 <article class="resume-card"><span class="resume-label">2024</span><h3>ฝึกงานแผนก Programmer</h3><p class="company">Siam IT Networking Thailand Co., Ltd.</p><ul><li>เรียนรู้การพัฒนาโปรแกรมและระบบงานภายในองค์กร</li><li>ศึกษาการเขียน Laravel 11 และการเชื่อมต่อฐานข้อมูล</li><li>พัฒนาแนวคิดด้านระบบ One Delivery</li></ul></article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="skills-section" id="skills">
-        <div class="skills-container">
-            <h2 data-th="ทักษะของฉัน" data-en="My Skills">ทักษะของฉัน</h2>
-            <div class="skills-grid"><article class="skill-category"><h3>IT Support & Hardware</h3><ul class="skill-list"><li>ติดตั้งและแก้ไขปัญหาคอมพิวเตอร์</li><li>ดูแล Windows และซอฟต์แวร์พื้นฐาน</li><li>ประกอบและบำรุงรักษาคอมพิวเตอร์</li></ul></article>
-<article class="skill-category"><h3>Network</h3><ul class="skill-list"><li>ติดตั้ง Router, Switch และ Access Point</li><li>พื้นฐานระบบเครือข่าย</li><li>ตรวจสอบและดูแลอุปกรณ์เครือข่าย</li></ul></article>
-<article class="skill-category"><h3>Programming & Database</h3><ul class="skill-list"><li>HTML, CSS, JavaScript</li><li>Python, PHP และ Laravel 11</li><li>MySQL และ MongoDB</li></ul></article></div>
-        </div>
-    </section>
-
-    <!-- ส่วนผลงาน -->
-    <section id="projects" class="projects">
-        <h2>ผลงานของฉัน</h2>
+            </div></section>
+<section id="skills"><div class="section-heading"><div><span class="eyebrow">MY TOOLKIT</span><h2>สิ่งที่ผมถนัด</h2></div></div><div class="skills-grid"><article><span class="skill-number">01</span><h3>IT Support & Hardware</h3><p>ติดตั้ง แก้ไขปัญหา และดูแลคอมพิวเตอร์ให้พร้อมใช้งาน</p><div class="tags"><span>Windows</span><span>PC Assembly</span><span>Troubleshooting</span></div></article><article><span class="skill-number">02</span><h3>Network & Systems</h3><p>ติดตั้งและดูแลอุปกรณ์เครือข่าย รวมถึงตรวจสอบระบบเบื้องต้น</p><div class="tags"><span>Router</span><span>Switch</span><span>Access Point</span></div></article><article><span class="skill-number">03</span><h3>Programming</h3><p>พัฒนาเว็บไซต์เบื้องต้นและเชื่อมต่อฐานข้อมูล</p><div class="tags"><span>HTML / CSS / JS</span><span>Python / PHP</span><span>Laravel</span><span>Redux Toolkit</span><span>Java / Spring Boot</span><span>Ruby</span><span>RESTful API</span><span>MySQL / MongoDB / PostgreSQL</span></div></article></div></section>
+<section id="projects" class="projects">
+        <div class="section-heading"><div><span class="eyebrow">03 / SELECTED WORK</span><h2>ผลงานและสิ่งที่ได้ลงมือทำ</h2></div><p>จากการเรียนรู้ สู่การใช้งานจริง</p></div>
         <div class="projects-grid">
             <!-- Shop Management System -->
             <div class="project-card">
-                <div class="project-images">
-                   
-                    <div class="image-preview">
-                        <img src="images/projects/shop-management/21-7-2025_153548_127.0.0.1.jpeg" alt="Shop Management - สินค้า">
-                        <img src="images/projects/shop-management/21-7-2025_153612_127.0.0.1.jpeg" alt="Shop Management - การขาย">
-                        <img src="images/projects/shop-management/21-7-2025_153620_127.0.0.1.jpeg" alt="Shop Management - สถิติ">
-                        <img src="images/projects/shop-management/21-7-2025_153647_127.0.0.1.jpeg" alt="Shop Management - ผู้ใช้งาน">
-                    </div>
+                <div class="project-images"><img class="main-image" loading="lazy" src="images/projects/shop-management/21-7-2025_153548_127.0.0.1.jpeg" alt="ระบบจัดการร้านค้า">
                 </div>
                 <h3>ระบบจัดการร้านค้า (Python)</h3>
                 <p>ระบบจัดการร้านค้าที่พัฒนาด้วย Python Flask ครอบคลุมการจัดการสินค้า, การขาย, สต็อก, และรายงานต่างๆ พร้อมระบบจัดการผู้ใช้และการรายงานผลแบบ Real-time</p>
@@ -174,13 +30,8 @@
             <!-- Online Shoe Store -->
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/projects/online-shoe-store/21-7-2025_145214_127.0.0.1.jpeg" alt="Online Shoe Store - หน้าแรก" class="main-image">
-                    <div class="image-preview">
-                        <img src="images/projects/online-shoe-store/21-7-2025_145224_127.0.0.1.jpeg" alt="Shoe Store - สินค้า">
-                        <img src="images/projects/online-shoe-store/21-7-2025_145316_127.0.0.1.jpeg" alt="Shoe Store - ตะกร้า">
-                        <img src="images/projects/online-shoe-store/21-7-2025_145330_127.0.0.1.jpeg" alt="Shoe Store - ชำระเงิน">
-                        <img src="images/projects/online-shoe-store/1-7-2025_145342_127.0.0.1.jpeg" alt="Shoe Store - ประวัติ">
-                    </div>
+                    <img loading="lazy" src="images/projects/online-shoe-store/21-7-2025_145214_127.0.0.1.jpeg" alt="Online Shoe Store - หน้าแรก" class="main-image">
+
                 </div>
                 <h3>ร้านขายรองเท้าออนไลน์ (Python)</h3>
                 <p>เว็บไซต์ร้านขายรองเท้าออนไลน์ที่พัฒนาด้วย Python Flask มีระบบสมาชิก, ตะกร้าสินค้า, การสั่งซื้อ และการชำระเงิน พร้อมระบบจัดการสินค้าสำหรับผู้ดูแล</p>
@@ -195,9 +46,7 @@
 
             <!-- CWNK Restaurant -->
             <div class="project-card">
-                <div class="project-images">
-                   
-                </div>
+                <div class="project-cover"><span>WEB APPLICATION</span><strong>Design. Build. Solve.</strong><span>PYTHON / DATABASE</span></div>
                 <h3>ระบบจัดการร้านอาหาร CWNK Restaurant</h3>
                 <p>แอพพลิเคชันจัดการร้านอาหารที่พัฒนาด้วย Python Django รองรับการจัดการเมนูอาหาร, การสั่งอาหาร, การจัดการโต๊ะ และระบบคิดเงิน พร้อมรายงานสรุปยอดขาย</p>
                 <div class="project-tech">
@@ -212,7 +61,7 @@
             <!-- เพิ่มการ์ดใหม่สำหรับแต่ละรูป -->
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/257a32fe2926aafc5bb0bd0dff1587b1.jpg" alt="การซ่อมบำรุง" class="main-image">
+                    <img loading="lazy" src="images/257a32fe2926aafc5bb0bd0dff1587b1.jpg" alt="การซ่อมบำรุง" class="main-image">
                 </div>
                 <h3>การซ่อมบำรุงคอมพิวเตอร์</h3>
                 <p>ประสบการณ์การซ่อมและบำรุงรักษาคอมพิวเตอร์ในมหาลัย ทั้งการประกอบเครื่อง แก้ไขปัญหาฮาร์ดแวร์และซอฟต์แวร์ ติดตั้งระบบปฏิบัติการและโปรแกรมต่างๆ</p>
@@ -225,10 +74,10 @@
 
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/2200bb2fa1adf94089970b938bdccfe4.jpg" alt="ทีมพัฒนา" class="main-image">
+                    <img loading="lazy" src="images/2200bb2fa1adf94089970b938bdccfe4.jpg" alt="ทีมพัฒนา" class="main-image">
                 </div>
                 <h3>ทีมพัฒนา</h3>
-                <p>การทำงานร่วมกับทีม ในงานสัปดาวิทยาสตร์ คุมทีมนำเสนองานต่างๆ รวมถึงการประสานงาน วางแผน และแก้ไขปัญหาร่วมกับทีม เพื่อให้งานสำเร็จลุล่วง</p>
+                <p>การทำงานร่วมกับทีม ในงานสัปดาห์วิทยาศาสตร์ คุมทีมนำเสนองานต่างๆ รวมถึงการประสานงาน วางแผน และแก้ไขปัญหาร่วมกับทีม เพื่อให้งานสำเร็จลุล่วง</p>
                 <div class="project-tech">
                     <span class="tech-tag">Team Work</span>
                     <span class="tech-tag">Leadership</span>
@@ -238,11 +87,8 @@
 
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/att._mvNdsMZK0EpL80Hy5Wyu5GNf1LiETbUDKJ12-kwWU4.jpg" alt="การพัฒนา - โค้ด" class="main-image">
-                    <div class="image-preview">
-                        <img src="images/att.MhLOcT5yzxmUiq9WssqBmW6zTdqAYHGveixtOqlNYe0.jpg" alt="การพัฒนา - แผนที่">
-                        
-                    </div>
+                    <img loading="lazy" src="images/att._mvNdsMZK0EpL80Hy5Wyu5GNf1LiETbUDKJ12-kwWU4.jpg" alt="การพัฒนา - โค้ด" class="main-image">
+
                 </div>
                 <h3>การพัฒนาระบบ</h3>
                 <p>การพัฒนาโค้ดและระบบต่างๆ ในระหว่างการฝึกงานและเรียน เช่น ระบบติดตามรถในมหาวิทยาลัย ระบบจัดการร้านค้า และระบบจัดการร้านอาหาร ใช้เทคโนโลยีที่หลากหลายทั้ง Web, IoT และ Database</p>
@@ -256,10 +102,10 @@
 
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/att.813OUgFDEJDRsrogGf4Y97LnFPY3QrducOYEtrgt7j4.png.jpg" alt="การออกแบบ" class="main-image">
+                    <img loading="lazy" src="images/att.813OUgFDEJDRsrogGf4Y97LnFPY3QrducOYEtrgt7j4.png.jpg" alt="การออกแบบ" class="main-image">
                 </div>
                 <h3>การจัดทำโลโก้ต่างๆและโปสเตอร์</h3>
-                <p>จัดการทำโปสเตอร์ อาหาร โปรโมทชั่นต่างๆ ในตอนฝึกงาน ออกแบบสื่อประชาสัมพันธ์ และงานกราฟิกดีไซน์ต่างๆ เพื่อใช้ในการนำเสนอและโปรโมท</p>
+                <p>จัดการทำโปสเตอร์ อาหาร โปรโมชั่นต่างๆ ในตอนฝึกงาน ออกแบบสื่อประชาสัมพันธ์ และงานกราฟิกดีไซน์ต่างๆ เพื่อใช้ในการนำเสนอและโปรโมท</p>
                 <div class="project-tech">
                     <span class="tech-tag">Graphic Design</span>
                     <span class="tech-tag">Adobe Creative Suite</span>
@@ -269,10 +115,10 @@
 
             <div class="project-card">
                 <div class="project-images">
-                    <img src="images/att.PvtiNUVfkgEJeZuJ1CXoAytRdpwr-AINPmrNXx57jAc.jpg" alt="การตัดต่อ" class="main-image">
+                    <img loading="lazy" src="images/att.PvtiNUVfkgEJeZuJ1CXoAytRdpwr-AINPmrNXx57jAc.jpg" alt="การตัดต่อ" class="main-image">
                 </div>
                 <h3>ตัดต่อวีดีโอและรูปภาพต่างๆ</h3>
-                <p>ในขนานฝึกงานได้ตัดคลิปวีดีโอและรูปภาพต่างๆ เพื่อนำไปใช้ในงานต่างๆ รวมถึงการปรับแต่งภาพ ทำ Motion Graphics และผลิตสื่อมัลติมีเดียต่างๆ</p>
+                <p>ระหว่างฝึกงานได้ตัดคลิปวีดีโอและรูปภาพต่างๆ เพื่อนำไปใช้ในงานต่างๆ รวมถึงการปรับแต่งภาพ ทำ Motion Graphics และผลิตสื่อมัลติมีเดียต่างๆ</p>
                 <div class="project-tech">
                     <span class="tech-tag">Video Editing</span>
                     <span class="tech-tag">Photo Editing</span>
@@ -286,16 +132,13 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>ระบบจัดการร้านค้า - Shop Management System</h2>
-                
-                <div class="modal-images">
-                    
-                    
-                </div>
+
+                <div class="modal-images"><img loading="lazy" src="images/projects/shop-management/21-7-2025_153548_127.0.0.1.jpeg" alt="ระบบจัดการร้านค้า"><img loading="lazy" src="images/projects/shop-management/21-7-2025_153620_127.0.0.1.jpeg" alt="ระบบจัดการร้านค้า"></div>
 
                 <div class="project-details">
                     <h3>รายละเอียดโปรเจค</h3>
                     <p>ระบบจัดการร้านค้าที่พัฒนาด้วย Python Flask Framework โดยมีฟีเจอร์หลักดังนี้:</p>
-                    
+
                     <h4>ฟีเจอร์หลัก</h4>
                     <ul>
                         <li>ระบบจัดการสินค้า - เพิ่ม/แก้ไข/ลบสินค้า, จัดการหมวดหมู่</li>
@@ -314,37 +157,7 @@
                         <li>Reporting: ReportLab</li>
                     </ul>
 
-                    <h4>Source Code</h4>
-                    <pre><code>
-# ตัวอย่างโค้ด Flask Route สำหรับการขายสินค้า
-@app.route('/sales/create', methods=['POST'])
-@login_required
-def create_sale():
-    data = request.get_json()
-    sale = Sale(
-        customer_name=data['customer_name'],
-        total_amount=data['total_amount'],
-        payment_method=data['payment_method'],
-        seller_id=current_user.id
-    )
-    db.session.add(sale)
-    
-    for item in data['items']:
-        sale_item = SaleItem(
-            sale=sale,
-            product_id=item['product_id'],
-            quantity=item['quantity'],
-            price=item['price']
-        )
-        db.session.add(sale_item)
-        
-        # Update stock
-        product = Product.query.get(item['product_id'])
-        product.stock -= item['quantity']
-        
-    db.session.commit()
-    return jsonify({'status': 'success'})
-                    </code></pre>
+
                 </div>
             </div>
         </div>
@@ -354,19 +167,19 @@ def create_sale():
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>ร้านขายรองเท้าออนไลน์ - Online Shoe Store</h2>
-                
+
                 <div class="modal-images">
-                    <img src="images/projects/online-shoe-store/21-7-2025_145214_127.0.0.1.jpeg" alt="Shoe Store - หน้าแรก">
-                    <img src="images/projects/online-shoe-store/21-7-2025_145224_127.0.0.1.jpeg" alt="Shoe Store - สินค้า">
-                    <img src="images/projects/online-shoe-store/21-7-2025_145316_127.0.0.1.jpeg" alt="Shoe Store - ตะกร้า">
-                    <img src="images/projects/online-shoe-store/21-7-2025_145330_127.0.0.1.jpeg" alt="Shoe Store - ชำระเงิน">
-                    <img src="images/projects/online-shoe-store/1-7-2025_145342_127.0.0.1.jpeg" alt="Shoe Store - ประวัติ">
+                    <img loading="lazy" src="images/projects/online-shoe-store/21-7-2025_145214_127.0.0.1.jpeg" alt="Shoe Store - หน้าแรก">
+                    <img loading="lazy" src="images/projects/online-shoe-store/21-7-2025_145224_127.0.0.1.jpeg" alt="Shoe Store - สินค้า">
+                    <img loading="lazy" src="images/projects/online-shoe-store/21-7-2025_145316_127.0.0.1.jpeg" alt="Shoe Store - ตะกร้า">
+                    <img loading="lazy" src="images/projects/online-shoe-store/21-7-2025_145330_127.0.0.1.jpeg" alt="Shoe Store - ชำระเงิน">
+                    <img loading="lazy" src="images/projects/online-shoe-store/1-7-2025_145342_127.0.0.1.jpeg" alt="Shoe Store - ประวัติ">
                 </div>
 
                 <div class="project-details">
                     <h3>รายละเอียดโปรเจค</h3>
                     <p>เว็บไซต์ร้านขายรองเท้าออนไลน์ที่พัฒนาด้วย Python Flask Framework โดยมีฟีเจอร์หลักดังนี้:</p>
-                    
+
                     <h4>ฟีเจอร์หลัก</h4>
                     <ul>
                         <li>ระบบสมาชิก - สมัครสมาชิก, เข้าสู่ระบบ, จัดการโปรไฟล์</li>
@@ -385,43 +198,7 @@ def create_sale():
                         <li>Image Storage: Flask-Upload</li>
                     </ul>
 
-                    <h4>Source Code</h4>
-                    <pre><code>
-# ตัวอย่างโค้ด Flask Route สำหรับการสั่งซื้อ
-@app.route('/checkout', methods=['POST'])
-@login_required
-def checkout():
-    cart = Cart.query.filter_by(user_id=current_user.id).first()
-    if not cart or not cart.items:
-        return redirect(url_for('cart'))
-        
-    order = Order(
-        user_id=current_user.id,
-        total_amount=cart.total_amount,
-        shipping_address=request.form['shipping_address'],
-        payment_method=request.form['payment_method']
-    )
-    db.session.add(order)
-    
-    for item in cart.items:
-        order_item = OrderItem(
-            order=order,
-            product_id=item.product_id,
-            quantity=item.quantity,
-            price=item.product.price
-        )
-        db.session.add(order_item)
-        
-        # Update stock
-        product = item.product
-        product.stock -= item.quantity
-        
-    # Clear cart
-    db.session.delete(cart)
-    db.session.commit()
-    
-    return redirect(url_for('order_confirmation', order_id=order.id))
-                    </code></pre>
+
                 </div>
             </div>
         </div>
@@ -431,13 +208,13 @@ def checkout():
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>CWNK Restaurant - ระบบจัดการร้านอาหาร</h2>
-                
-                
+
+
 
                 <div class="project-details">
                     <h3>รายละเอียดโปรเจค</h3>
                     <p>CWNK Restaurant เป็นระบบจัดการร้านอาหารที่ครบวงจร พัฒนาด้วย Python Django Framework โดยมีฟีเจอร์หลักดังนี้:</p>
-                    
+
                     <h4>ฟีเจอร์หลัก</h4>
                     <ul>
                         <li>ระบบจัดการเมนูอาหาร - เพิ่ม/แก้ไข/ลบรายการอาหาร พร้อมรูปภาพ</li>
@@ -457,62 +234,11 @@ def checkout():
                         <li>UI Components: Bootstrap 5</li>
                     </ul>
 
-                    <h4>Source Code</h4>
-                    <pre><code>
-# ตัวอย่างโค้ด Django Model สำหรับจัดการเมนูอาหาร
-class MenuItem(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='menu_items/')
-    is_available = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return self.name
 
-# ตัวอย่างโค้ด Django View สำหรับแสดงรายการอาหาร
-class MenuListView(ListView):
-    model = MenuItem
-    template_name = 'restaurant/menu_list.html'
-    context_object_name = 'menu_items'
-    
-    def get_queryset(self):
-        return MenuItem.objects.filter(is_available=True)
-        </code></pre>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="contact-container">
-            <h2 data-th="ติดต่อฉัน" data-en="Contact Me">ติดต่อฉัน</h2>
-            <p class="contact-location">คอหงส์ · หาดใหญ่ · สงขลา</p>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <i class="fas fa-envelope contact-icon"></i>
-                    <h4>อีเมล</h4>
-                    <a href="mailto:peemcwnk@gmail.com">peemcwnk@gmail.com</a>
-                </div>
 
-                <div class="contact-item">
-                    <i class="fas fa-phone contact-icon"></i>
-                    <h4>โทรศัพท์</h4>
-                    <a href="tel:+66917439468">091-743-9468</a>
-                </div>
-
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- ส่วนท้าย -->
-    <footer>
-        <p>&copy; 2024 Cwnk แฟ้มสะสมผลงานของฉัน</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html> 
+<section id="contact" class="contact"><span class="eyebrow">LET’S CONNECT</span><h2>มาคุยกัน<br>ถึงโอกาสใหม่ ๆ<span> ↗</span></h2><div class="contact-links"><a href="mailto:peemcwnk@gmail.com"><small>EMAIL ME</small><span>peemcwnk@gmail.com ↗</span></a><a href="tel:+66917439468"><small>CALL ME</small><span>091-743-9468 ↗</span></a></div></section></main><footer><a class="brand" href="#home">PEEM</a><p>© 2026 ชวนากร นนทฤทธิ์</p><a href="#home">กลับด้านบน ↑</a></footer><script src="script.js"></script><script src="i18n.js"></script></body></html>
