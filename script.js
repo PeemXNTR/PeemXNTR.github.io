@@ -7,6 +7,7 @@ function toggleMobileMenu() {
     menuToggle.classList.toggle('active');
     navLinks.classList.toggle('active');
     body.classList.toggle('menu-open');
+    menuToggle.setAttribute('aria-expanded', String(navLinks.classList.contains('active')));
 }
 
 // ฟังก์ชันสำหรับเปลี่ยนภาษา
@@ -25,6 +26,7 @@ function switchLanguage() {
     });
     
     currentLang = newLang;
+    document.documentElement.lang = newLang;
 }
 
 // ฟังก์ชันสำหรับ Dark Mode
@@ -119,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // เพิ่ม Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // เพิ่มคลาส fade-in ให้กับทุกเซ็กชัน
-    document.querySelectorAll('section').forEach(section => {
+    document.querySelectorAll('section:not(.hero)').forEach(section => {
         section.classList.add('fade-in');
     });
     
@@ -171,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // เพิ่มแอนิเมชั่น Parallax สำหรับ Hero Section
     const heroContent = document.querySelector('.hero-content');
     window.addEventListener('mousemove', (e) => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse)').matches) return;
         const mouseX = e.clientX / window.innerWidth - 0.5;
         const mouseY = e.clientY / window.innerHeight - 0.5;
         
