@@ -126,7 +126,7 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
+    background:
         radial-gradient(circle at 20% 30%, var(--primary-color) 0%, transparent 70%),
         radial-gradient(circle at 80% 70%, var(--secondary-color) 0%, transparent 70%);
     opacity: 0.1;
@@ -729,15 +729,15 @@ footer {
     .nav-links {
         display: none;
     }
-    
+
     .hero-content h1 {
         font-size: 3rem;
     }
-    
+
     .hero-content h2 {
         font-size: 1.8rem;
     }
-    
+
     section {
         padding: 1.5rem;
         margin-top: 50px;
@@ -826,7 +826,7 @@ footer {
         width: 40px;
         height: 40px;
     }
-    
+
     .logo a {
         font-size: 1.2rem;
     }
@@ -835,20 +835,20 @@ footer {
         font-size: 1.5rem;
         padding: 1.5rem 1.5rem 0.8rem;
     }
-    
+
     .project-card p {
         font-size: 1rem;
         padding: 0 1.5rem 0.8rem;
     }
-    
+
     .project-tech {
         padding: 0 1.5rem 0.8rem;
     }
-    
+
     .tech-tag {
         font-size: 0.8rem;
     }
-    
+
     .project-link {
         margin: 0 1.5rem 1.5rem;
         padding: 0.7rem 1.3rem;
@@ -878,11 +878,11 @@ footer {
         width: 60px;
         height: 60px;
     }
-    
+
     .contact-grid {
         grid-template-columns: 1fr;
     }
-} 
+}
 
 /* แอนิเมชั่นเมื่อเลื่อนหน้า */
 .fade-in {
@@ -923,7 +923,7 @@ nav {
 
 [data-lang-switch].switching {
     transform: translateY(-5px);
-} 
+}
 
 /* เพิ่มแอนิเมชั่นทั่วไป */
 @keyframes fadeInUp {
@@ -947,7 +947,7 @@ nav {
     100% {
         background-position: 0% 50%;
     }
-} 
+}
 
 .project-images {
     position: relative;
@@ -1147,7 +1147,7 @@ nav {
         width: 60px;
         height: 45px;
     }
-} 
+}
 
 /* Contact Section Styles */
 .contact-section {
@@ -1221,20 +1221,20 @@ nav {
     .project-card {
         padding: 1rem;
     }
-    
+
     .main-image {
         height: 200px;
     }
-    
+
     .image-preview img {
         width: 60px;
         height: 60px;
     }
-    
+
     .contact-grid {
         grid-template-columns: 1fr;
     }
-} 
+}
 
 /* Skills Section */
 .skills-section {
@@ -1315,4 +1315,82 @@ nav {
     .skills-grid {
         grid-template-columns: 1fr;
     }
-} 
+}
+/* Portrait and resume refresh: retain the original blue/cyan visual identity. */
+section { scroll-margin-top: 80px; }
+.hero { padding: 3rem 1.5rem; }
+.hero-content { width: 100%; gap: 4rem; }
+.hero-content h2 { text-align: left; font-size: clamp(1.65rem, 3vw, 2.2rem); }
+.hero-content .hero-role { font-size: 1.1rem; max-width: 32rem; }
+.hero-image { flex: 0 1 360px; }
+.profile-image { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 1111 / 1416; border-radius: 24px; border: 6px solid var(--card-bg); box-shadow: 0 18px 48px var(--shadow-color); }
+.about-profile-image { display: block; height: auto; aspect-ratio: 2 / 3; object-fit: cover; }
+.about-text, .personal-info { min-width: 0; }
+.personal-info { padding: 1.25rem; }
+.info-item { flex-wrap: wrap; gap: .25rem; padding: .75rem; }
+.info-label { min-width: 95px; }
+.info-value { min-width: 120px; }
+section h2, .skill-category h3, .skill-name, .project-card h3, .project-card p, .contact-item h4, .contact-item a { color: var(--text-color); }
+.skills-section, .contact-section { background: var(--bg-color); }
+.skill-category, .project-card, .contact-item { background: var(--card-bg); box-shadow: 0 6px 24px var(--shadow-color); }
+.resume-section { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+.resume-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start; }
+.resume-card { padding: 2rem; border-radius: 20px; background: var(--card-bg); box-shadow: 0 6px 24px var(--shadow-color); border-top: 3px solid var(--primary-color); }
+.resume-label { color: var(--primary-color); font-weight: 600; letter-spacing: .08em; }
+.resume-card h3 { margin: .6rem 0; font-size: 1.25rem; }
+.resume-card .company { color: var(--primary-color); margin-bottom: 1rem; }
+.resume-card ul, .skill-list { padding-left: 1.25rem; }
+.resume-card li, .skill-list li { margin-top: .65rem; }
+.experience-list { display: grid; gap: 1.5rem; }
+.contact-location { text-align: center; margin: -1.5rem 0 2rem; }
+.projects-grid, .skills-grid, .contact-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.project-images { border-radius: 12px; }
+.project-card h3 { margin-top: 1rem; }
+.project-link { margin: 1.5rem 0 0; border: 0; cursor: pointer; font: inherit; }
+.menu-toggle { display: none; background: none; border: 0; padding: .65rem; cursor: pointer; }
+.bar { width: 22px; height: 2px; margin: 4px 0; background: var(--text-color); }
+:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 4px; }
+@media (max-width: 1000px) {
+    .nav-links { gap: 1rem; }
+    .logo a { font-size: 1.1rem; }
+    .logo { gap: .4rem; }
+    .hero-content { gap: 2rem; }
+    .about-content { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem; }
+}
+@media (max-width: 768px) {
+    .menu-toggle { display: block; order: 3; }
+    .nav-controls { gap: .25rem; }
+    .nav-links.active { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; padding: 1.5rem; background: var(--bg-color); box-shadow: 0 8px 18px var(--shadow-color); }
+    .nav-links a { display: block; padding: .4rem; }
+    .hero { margin-top: 60px; padding: 2rem 1rem; }
+    .hero-content { padding: 0; gap: 1.75rem; }
+    .hero-image { flex: auto; margin-top: 0; width: min(72vw, 300px); }
+    .hero-content h1 { font-size: 2.75rem; margin-bottom: .5rem; }
+    .hero-content h2 { text-align: center; margin-bottom: .75rem; }
+    .hero-content .hero-role { font-size: 1rem; margin-bottom: 1rem; }
+    .hero-buttons { flex-wrap: wrap; margin-top: 1rem; gap: .75rem; }
+    .cta-button { padding: .8rem 1.5rem; }
+    .about { padding: 3rem 1rem; }
+    .about-content, .resume-grid { grid-template-columns: 1fr; }
+    .about-image { width: min(100%, 340px); max-width: 340px; }
+    .about-text, .resume-card { padding: 1.25rem; }
+    .personal-info { padding: 1rem; }
+    .info-item i { width: 24px; margin-right: .25rem; }
+    .info-label { min-width: 80px; margin-right: .25rem; }
+    .resume-section, .skills-container, .contact-container { padding-left: 1rem; padding-right: 1rem; }
+    section h2 { font-size: 2rem; }
+    .projects-grid { padding: 0; gap: 1.5rem; }
+    .project-card h3, .project-card p, .project-tech { padding: 0; }
+}
+@media (max-width: 380px) {
+    .logo a { font-size: .95rem; }
+    .nav-logo { width: 28px; height: 28px; }
+    .nav-content { padding: .5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    .fade-in { opacity: 1; transform: none; }
+    .skill-progress { width: var(--skill-percentage); }
+}
+
+.bar { display: block; }

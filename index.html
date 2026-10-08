@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แฟ้มสะสมผลงานของฉัน</title>
+    <title>ชวนากร นนทฤทธิ์ | IT Support & Programmer</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/s-removebg-preview.png">
     <link rel="manifest" href="site.webmanifest">
@@ -22,12 +22,10 @@
                     <img src="images/s-removebg-preview.png" alt="CWNK Logo" class="nav-logo">
                     <a href="#home">แฟ้มสะสม<span>ผลงาน</span></a>
                 </div>
-                <div class="menu-toggle" id="menuToggle">
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                    <div class="bar"></div>
-                </div>
-                <ul class="nav-links">
+                <button type="button" class="menu-toggle" id="menuToggle" aria-label="เปิดหรือปิดเมนู" aria-expanded="false" aria-controls="navigation">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </button>
+                <ul class="nav-links" id="navigation">
                     <li><a href="#home" data-en="Home" data-th="หน้าแรก">หน้าแรก</a></li>
                     <li><a href="#about" data-en="About" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</a></li>
                     <li><a href="#skills" data-en="Skills" data-th="ทักษะ">ทักษะ</a></li>
@@ -51,15 +49,16 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1 data-en="Hello" data-th="สวัสดีครับ">สวัสดีครับ</h1>
-                <h2 data-en="Welcome to My Portfolio" data-th="ยินดีต้อนรับสู่ Portfolio ของผม">ยินดีต้อนรับสู่ Portfolio ของผม</h2>
+                <h2 data-en="I’m Peem, Chawanakorn" data-th="ผม ภีม — ชวนากร นนทฤทธิ์">ผม ภีม — ชวนากร นนทฤทธิ์</h2>
                 
+                <p class="hero-role">IT Support / Programmer / System Administrator</p>
                 <div class="hero-buttons">
                     <a href="#contact" class="cta-button primary" data-en="Contact Me" data-th="ติดต่อผม">ติดต่อผม</a>
                     <a href="#projects" class="cta-button secondary" data-en="View Projects" data-th="ดูผลงาน">ดูผลงาน</a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="images/profile.jpg" alt="Kim's Profile" class="profile-image">
+                <img src="images/peem-graduation.jpg" alt="ภีม ชวนากร ในชุดครุย" class="profile-image" width="1111" height="1416" fetchpriority="high">
             </div>
         </div>
     </section>
@@ -69,13 +68,13 @@
         <h2 data-en="About Me" data-th="เกี่ยวกับฉัน">เกี่ยวกับฉัน</h2>
         <div class="about-content">
             <div class="about-image">
-                <img src="images/profile1.jpg" alt="Peem's Profile" class="about-profile-image">
+                <img src="images/peem-suit.png" alt="ภีม ชวนากร ในชุดสูทสีน้ำเงิน" class="about-profile-image" width="1024" height="1536" loading="lazy">
                 
             </div>
             <div class="about-text">
                 <div class="about-header">
                     <h3 data-en="Hi, I'm Peem" data-th="สวัสดีครับ ผมชื่อภีม">สวัสดีครับ ผมชื่อภีม</h3>
-                    <span class="highlight-text" data-en="Computer Systems Developer" data-th="นักพัฒนาระบบคอมพิวเตอร์">นักพัฒนาระบบคอมพิวเตอร์</span>
+                    <span class="highlight-text" data-en="IT Support & System Development" data-th="ดูแลระบบไอทีและพัฒนาระบบ">ดูแลระบบไอทีและพัฒนาระบบ</span>
                 </div>
                 <div class="personal-info">
                     <div class="info-item">
@@ -89,11 +88,6 @@
                         <span class="info-value">ภีม</span>
                     </div>
                     <div class="info-item">
-                        <i class="fas fa-birthday-cake"></i>
-                        <span class="info-label" data-en="Age" data-th="อายุ">อายุ:</span>
-                        <span class="info-value">23 ปี</span>
-                    </div>
-                    <div class="info-item">
                         <i class="fas fa-calendar-alt"></i>
                         <span class="info-label" data-en="Date of Birth" data-th="วันเกิด">วันเกิด:</span>
                         <span class="info-value">3 กุมภาพันธ์ 2545</span>
@@ -105,22 +99,8 @@
                     </div>
                 </div>
                 <div class="about-description">
-                    <p data-en="I specialize in computer hardware, with a passion for PC building and configuring systems to match specific user needs." 
-                       data-th="ผมมีความถนัดในด้านฮาร์ดแวร์ รักในการประกอบคอมพิวเตอร์และการจัดสเปกเครื่องให้เหมาะสมกับการใช้งาน">
-                        ผมมีความถนัดในด้านฮาร์ดแวร์ รักในการประกอบคอมพิวเตอร์และการจัดสเปกเครื่องให้เหมาะสมกับการใช้งาน
-                    </p>
-                    <p data-en="I'm proficient in operating system installation and software configuration." 
-                       data-th="มีความสามารถในการติดตั้งระบบปฏิบัติการและโปรแกรมต่าง ๆ ได้อย่างถูกต้อง">
-                        มีความสามารถในการติดตั้งระบบปฏิบัติการและโปรแกรมต่าง ๆ ได้อย่างถูกต้อง
-                    </p>
-                    <p data-en="My interest lies in IT work related to system assembly and maintenance." 
-                       data-th="สนใจงานด้านไอทีที่เกี่ยวกับการประกอบและดูแลรักษาระบบ">
-                        สนใจงานด้านไอทีที่เกี่ยวกับการประกอบและดูแลรักษาระบบ
-                    </p>
-                    <p data-en="My goal is to secure stable employment to build a better quality of life." 
-                       data-th="เป้าหมายของผมคือทำงานอย่างมั่นคงเพื่อสร้างคุณภาพชีวิตที่ดี">
-                        เป้าหมายของผมคือทำงานอย่างมั่นคงเพื่อสร้างคุณภาพชีวิตที่ดี
-                    </p>
+                    <p data-th="สนใจงาน IT Support, Network และการพัฒนาระบบ ชอบแก้ไขปัญหาคอมพิวเตอร์ ติดตั้งระบบ และดูแลอุปกรณ์เครือข่าย" data-en="Interested in IT support, networking and system development, with hands-on computer troubleshooting, system installation and network equipment support.">สนใจงาน IT Support, Network และการพัฒนาระบบ ชอบแก้ไขปัญหาคอมพิวเตอร์ ติดตั้งระบบ และดูแลอุปกรณ์เครือข่าย</p>
+                    <p data-th="เรียนรู้สิ่งใหม่ได้รวดเร็ว พร้อมพัฒนาทักษะด้านเทคโนโลยีอย่างต่อเนื่อง เพื่อสร้างผลงานและเติบโตในสายงานไอทีอย่างมืออาชีพ" data-en="A quick learner, committed to developing technical skills and growing professionally in IT.">เรียนรู้สิ่งใหม่ได้รวดเร็ว พร้อมพัฒนาทักษะด้านเทคโนโลยีอย่างต่อเนื่อง เพื่อสร้างผลงานและเติบโตในสายงานไอทีอย่างมืออาชีพ</p>
                 </div>
                 <div class="about-stats">
                     <div class="stat-item">
@@ -143,203 +123,25 @@
         </div>
     </section>
 
+    <section id="experience" class="resume-section">
+        <h2 data-th="การศึกษาและประสบการณ์" data-en="Education & Experience">การศึกษาและประสบการณ์</h2>
+        <div class="resume-grid">
+            <article class="resume-card"><span class="resume-label">EDUCATION</span><h3>ปริญญาตรี วิทยาการคอมพิวเตอร์</h3><p>มหาวิทยาลัยราชภัฏสุราษฎร์ธานี</p><p>คณะวิทยาศาสตร์และเทคโนโลยี</p></article>
+            <div class="experience-list">
+                <article class="resume-card"><span class="resume-label">2026</span><h3>ดูแลอุปกรณ์ภายในองค์กร · ทีมช่าง</h3><p class="company">MASTERINK & PRINTING (THAILAND) COMPANY LIMITED</p><ul><li>ดูแลและติดตั้งคอมพิวเตอร์และอุปกรณ์ต่าง ๆ ภายในบริษัท</li><li>ตรวจสอบระบบเครือข่ายและอุปกรณ์สำนักงาน เครื่องซีล เครื่องเลเซอร์ตรายาง และเครื่องแกะสลัก</li><li>ออกซ่อมและส่งมอบอุปกรณ์ พร้อมสอนลูกค้าใช้งานโปรแกรมและดูแลบัญชี LINE Official</li></ul></article>
+                <article class="resume-card"><span class="resume-label">2024</span><h3>Admin One Delivery</h3><p class="company">Siam IT Networking Thailand Co., Ltd.</p><ul><li>ดูแลข้อมูลและประสานงานระบบหลังบ้าน</li><li>ตรวจสอบข้อมูลลูกค้าและเอกสาร</li><li>สนับสนุนการทำงานของทีมและแก้ไขปัญหาเบื้องต้น</li></ul></article>
+                <article class="resume-card"><span class="resume-label">2024</span><h3>ฝึกงานแผนก Programmer</h3><p class="company">Siam IT Networking Thailand Co., Ltd.</p><ul><li>เรียนรู้การพัฒนาโปรแกรมและระบบงานภายในองค์กร</li><li>ศึกษาการเขียน Laravel 11 และการเชื่อมต่อฐานข้อมูล</li><li>พัฒนาแนวคิดด้านระบบ One Delivery</li></ul></article>
+            </div>
+        </div>
+    </section>
+
     <!-- Skills Section -->
     <section class="skills-section" id="skills">
         <div class="skills-container">
-            <h2>ทักษะของฉัน</h2>
-            <div class="skills-grid">
-                <!-- Programming Languages -->
-                <div class="skill-category">
-                    <h3>ภาษาโปรแกรมมิ่ง</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Python</span>
-                            <span class="skill-percentage">75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">JavaScript</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">HTML/CSS</span>
-                            <span class="skill-percentage">80%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 80%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Frameworks & Libraries -->
-                <div class="skill-category">
-                    <h3>เฟรมเวิร์คและไลบรารี</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">React.js</span>
-                            <span class="skill-percentage">65%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Node.js</span>
-                            <span class="skill-percentage">60%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 60%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Laravel</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Databases -->
-                <div class="skill-category">
-                    <h3>ฐานข้อมูล</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">MongoDB</span>
-                            <span class="skill-percentage">65%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">PostgreSQL</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">SQLite</span>
-                            <span class="skill-percentage">75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tools & Technologies -->
-                <div class="skill-category">
-                    <h3>เครื่องมือและเทคโนโลยี</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Git</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Docker</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">IoT & Arduino</span>
-                            <span class="skill-percentage">75%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 75%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Design & Multimedia -->
-                <div class="skill-category">
-                    <h3>การออกแบบและมัลติมีเดีย</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Canva</span>
-                            <span class="skill-percentage">85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Video Editing</span>
-                            <span class="skill-percentage">65%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 65%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Design</span>
-                            <span class="skill-percentage">70%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 70%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Soft Skills -->
-                <div class="skill-category">
-                    <h3>ทักษะด้านอื่นๆ</h3>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">การทำงานเป็นทีม</span>
-                            <span class="skill-percentage">90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">การแก้ไขปัญหา</span>
-                            <span class="skill-percentage">85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">การสื่อสาร</span>
-                            <span class="skill-percentage">95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-progress" style="--skill-percentage: 95%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 data-th="ทักษะของฉัน" data-en="My Skills">ทักษะของฉัน</h2>
+            <div class="skills-grid"><article class="skill-category"><h3>IT Support & Hardware</h3><ul class="skill-list"><li>ติดตั้งและแก้ไขปัญหาคอมพิวเตอร์</li><li>ดูแล Windows และซอฟต์แวร์พื้นฐาน</li><li>ประกอบและบำรุงรักษาคอมพิวเตอร์</li></ul></article>
+<article class="skill-category"><h3>Network</h3><ul class="skill-list"><li>ติดตั้ง Router, Switch และ Access Point</li><li>พื้นฐานระบบเครือข่าย</li><li>ตรวจสอบและดูแลอุปกรณ์เครือข่าย</li></ul></article>
+<article class="skill-category"><h3>Programming & Database</h3><ul class="skill-list"><li>HTML, CSS, JavaScript</li><li>Python, PHP และ Laravel 11</li><li>MySQL และ MongoDB</li></ul></article></div>
         </div>
     </section>
 
@@ -686,7 +488,8 @@ class MenuListView(ListView):
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="contact-container">
-            <h2>ติดต่อฉัน</h2>
+            <h2 data-th="ติดต่อฉัน" data-en="Contact Me">ติดต่อฉัน</h2>
+            <p class="contact-location">คอหงส์ · หาดใหญ่ · สงขลา</p>
             <div class="contact-grid">
                 <div class="contact-item">
                     <i class="fas fa-envelope contact-icon"></i>
